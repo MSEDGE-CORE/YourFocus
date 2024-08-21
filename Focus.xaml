@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="TomatoFocus.Focus"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TomatoFocus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" Margin="40,32,40,0" MaxWidth="720">
+            <muxc:DropDownButton Name="TitleDropDown" Background="Transparent" BorderBrush="Transparent" Margin="4,32,0,0" FontFamily="HarmonyOS Sans SC" FontSize="48" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <muxc:DropDownButton.Flyout>
+                    <MenuFlyout Placement="RightEdgeAlignedTop">
+                        <MenuFlyoutItem Text="倒计时" Click="TitleCountDown_Click" FontFamily="HarmonyOS Sans SC"/>
+                        <MenuFlyoutItem Text="正计时" Click="TitleCountUp_Click" FontFamily="HarmonyOS Sans SC"/>
+                    </MenuFlyout>
+                </muxc:DropDownButton.Flyout>
+            </muxc:DropDownButton>
+            <Button Name="EditButton" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,4,0" Click="EditButton_Click" Background="Transparent" BorderBrush="Transparent">
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE70F;" />
+            </Button>
+        </Grid>
+        <ScrollViewer Name="ScrollViewer" IsTabStop="True" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="0,144,0,0">
+            <Grid>
+                <StackPanel MaxWidth="720" Margin="40,0,40,32">
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" Height = "310">
+                        <Button HorizontalAlignment="Stretch" Height="310" Margin="0,0,0,0" IsEnabled="False"/>
+                        <TextBlock FontSize = "24" Text = "开始专注" Margin = "0,40,0,0" VerticalAlignment = "Top" HorizontalAlignment = "Center" FontFamily="HarmonyOS Sans SC" FontWeight="SemiBold"/>
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <muxc:NumberBox Name="MinuteSet" Width="200" Height="84" FontSize="54" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,96,0,0" SmallChange="1" LargeChange="10" SpinButtonPlacementMode="Hidden" ValueChanged="MinuteSet_ValueChanged" LostFocus="MinuteSet_LostFocus"/>
+                        <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Height="84" Width="74" Margin="125,96,0,0"/>
+                        <TextBlock Text="分" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="85,136,0,0" FontSize="20" Foreground="Gray"/>
+                        <Button Name="MinuteUp" Width="42" Height="42" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="160,96,0,0" Click="MinuteUp_Click" Background="Transparent" BorderBrush="Transparent">
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE948;" FontSize="16"/>
+                        </Button>
+                        <Button Name="MinuteDown" Width="42" Height="42" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="160,138,0,0" Click="MinuteDown_Click" Background="Transparent" BorderBrush="Transparent">
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE949;" FontSize="16"/>
+                        </Button>
+                        <Button Style="{StaticResource AccentButtonStyle}" CornerRadius = "48" Height="48" Width="48" Name = "StartButton" Click="StartButton_Click" ToolTipService.ToolTip="开始" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,215,0,0">
+                            <FontIcon Name = "StartButtonIcon" Glyph="&#xF5B0;" FontFamily = "Segoe Fluent Icons" />
+                        </Button>
+                    </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" Height = "230">
+                        <Button HorizontalAlignment="Stretch" Height="230" Margin="0,0,0,0" IsEnabled="False"/>
+                        <TextBlock FontSize = "24" Text = "每日目标" Margin = "0,16,0,0" VerticalAlignment = "Top" HorizontalAlignment = "Center" FontFamily="HarmonyOS Sans SC" FontWeight="SemiBold"/>
+                        <TextBlock Name="TextAlreadyFocused" FontSize="18" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" TextAlignment="Right" Margin="0,115,280,40"/>
+                        <TextBlock Name="TextPercentFocused" FontSize="38" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" TextAlignment="Left" Margin="270,110,0,40"/>
+                        <muxc:ProgressRing Name="GoalProgressRing" Loaded="GoalProgressRing_Loaded" Width="120" Height="120" IsIndeterminate="False" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,80,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>
