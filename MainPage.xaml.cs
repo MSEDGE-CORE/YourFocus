@@ -56,8 +56,15 @@ namespace TomatoFocus
             }
         }
 
+        void CloseTaskWebView()
+        {
+            if(ContentFrame.CurrentSourcePageType == typeof(Tasks))
+                (ContentFrame.Content as Tasks).CloseWebView();
+        }
+
         private void NavFocusButton_Click(object sender, RoutedEventArgs e)
         {
+            CloseTaskWebView();
             if (ContentFrame.CurrentSourcePageType != typeof(Focus))
             {
                 ContentFrame.Navigate(typeof(Focus), null, new EntranceNavigationTransitionInfo());
@@ -71,6 +78,7 @@ namespace TomatoFocus
 
         private void NavTaskButton_Click(object sender, RoutedEventArgs e)
         {
+            CloseTaskWebView();
             if (ContentFrame.CurrentSourcePageType != typeof(Tasks))
             {
                 ContentFrame.Navigate(typeof(Tasks), null, new EntranceNavigationTransitionInfo());
@@ -84,6 +92,7 @@ namespace TomatoFocus
 
         private void NavRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            CloseTaskWebView();
             if (ContentFrame.CurrentSourcePageType != typeof(Room))
             {
                 ContentFrame.Navigate(typeof(Room), null, new EntranceNavigationTransitionInfo());
@@ -97,6 +106,7 @@ namespace TomatoFocus
 
         private void NavStatsButton_Click(object sender, RoutedEventArgs e)
         {
+            CloseTaskWebView();
             if (ContentFrame.CurrentSourcePageType != typeof(Stats))
             {
                 ContentFrame.Navigate(typeof(Stats), null, new EntranceNavigationTransitionInfo());
@@ -108,8 +118,9 @@ namespace TomatoFocus
             NavSettingsButton.IsChecked = false;
         }
 
-        private void NavSettingsButton_Click(object sender, RoutedEventArgs e)
+        public void NavSettingsButton_Click(object sender = null, RoutedEventArgs e = null)
         {
+            CloseTaskWebView();
             if (ContentFrame.CurrentSourcePageType != typeof(Settings))
             {
                 ContentFrame.Navigate(typeof(Settings), null, new EntranceNavigationTransitionInfo());
@@ -121,9 +132,9 @@ namespace TomatoFocus
             NavSettingsButton.IsChecked = true;
         }
 
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        public void Page_SizeChanged(object sender = null, SizeChangedEventArgs e = null)
         {
-            if(ActualWidth >= 680 && ActualHeight >= 344)
+            if (ActualWidth >= 680 && ActualHeight >= 344)
             {
                 LeftBar.Visibility = Visibility.Visible;
                 BottomBar.Visibility = Visibility.Collapsed;
@@ -140,8 +151,25 @@ namespace TomatoFocus
                 NavigationButtons.HorizontalAlignment = HorizontalAlignment.Center;
                 NavigationButtons.VerticalAlignment = VerticalAlignment.Bottom;
                 NavigationButtons.Orientation = Orientation.Horizontal;
-                NavigationButtons.Margin = new Thickness(0, 0, 0, -2); 
+                NavigationButtons.Margin = new Thickness(0, 0, 0, -2);
                 ContentFrame.Margin = new Thickness(0, 0, 0, 68);
+            }
+
+            if((Application.Current as App).ShowTasksPage)
+            {
+                NavTasksButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NavTasksButton.Visibility = Visibility.Collapsed;
+            }
+            if ((Application.Current as App).ShowRoomPage)
+            {
+                NavRoomButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NavRoomButton.Visibility = Visibility.Collapsed;
             }
         }
 

@@ -31,22 +31,31 @@ namespace TomatoFocus
                 TitleDropDown.Content = "正计时";
             }
             MinuteSet.Text = (Application.Current as App).FocusMinutes.ToString();
+            isRepeatButton.IsChecked = (Application.Current as App).FocusRepeated;
             GoalProgressRing.Value = 0;
 
-            TextAlreadyFocused.Text = string.Format("已专注 {0} 分\n目标 {1} 分", (Application.Current as App).AlreadyFocusedMinutes, (Application.Current as App).TargetFocusdMinutes);
-            TextPercentFocused.Text = string.Format("{0}%", (int)((Application.Current as App).AlreadyFocusedMinutes * 1.0 / (Application.Current as App).TargetFocusdMinutes * 100));
+            TextAlreadyFocused.Text = string.Format("已专注 {0} 分\n目标 {1} 分", (Application.Current as App).AlreadyFocusedMinutes, (Application.Current as App).DailyGoalMinutes);
+            TextPercentFocused.Text = string.Format("{0}%", (int)((Application.Current as App).AlreadyFocusedMinutes * 1.0 / (Application.Current as App).DailyGoalMinutes * 100));
         }
 
+        private void RelayCounterFrame()
+        {
+            if((Application.Current as App).DefFocusMode == 0)
+                CountDownMinuteSet.Visibility = Visibility.Visible;
+            else if((Application.Current as App).DefFocusMode == 1)
+                CountDownMinuteSet.Visibility = Visibility.Collapsed;
+        }
         private void TitleCountDown_Click(object sender, RoutedEventArgs e)
         {
             TitleDropDown.Content = "倒计时";
             (Application.Current as App).DefFocusMode = 0;
+            RelayCounterFrame();
         }
-
         private void TitleCountUp_Click(object sender, RoutedEventArgs e)
         {
             TitleDropDown.Content = "正计时";
             (Application.Current as App).DefFocusMode = 1;
+            RelayCounterFrame();
         }
 
         private void MinuteUp_Click(object sender, RoutedEventArgs e)
@@ -97,12 +106,17 @@ namespace TomatoFocus
 
         private void GoalProgressRing_Loaded(object sender = null, RoutedEventArgs e = null)
         {
-            GoalProgressRing.Value = ((Application.Current as App).AlreadyFocusedMinutes * 1.0 / (Application.Current as App).TargetFocusdMinutes * 100) + 1;
+            GoalProgressRing.Value = ((Application.Current as App).AlreadyFocusedMinutes * 1.0 / (Application.Current as App).DailyGoalMinutes * 100) + 1;
         }
 
-        private async void EditButton_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
+           ((Window.Current.Content as Frame)?.Content as MainPage).NavSettingsButton_Click();
+        }
 
+        private void RepeatButton_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).FocusRepeated = (bool)isRepeatButton.IsChecked;
         }
     }
 }

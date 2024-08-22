@@ -28,7 +28,13 @@ namespace TomatoFocus
         public int DefFocusMode = 0;
         public int FocusMinutes = 60;
         public int AlreadyFocusedMinutes = 0;
-        public int TargetFocusdMinutes = 60;
+        public int DailyGoalMinutes = 60;
+        public int OnceFocusMinutes = 25;
+        public int OnceRestMinutes = 5;
+        public bool FocusRepeated = false;
+
+        public bool ShowTasksPage = true;
+        public bool ShowRoomPage = true;
 
         public App()
         {
@@ -50,7 +56,7 @@ namespace TomatoFocus
                 }
                 Window.Current.Content = RootFrame;
             }
-
+            GetSettings();
             if (e.PrelaunchActivated == false)
             {
                 if (RootFrame.Content == null)
@@ -59,8 +65,6 @@ namespace TomatoFocus
                 }
                 Window.Current.Activate();
             }
-
-            GetSettings();
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -109,6 +113,47 @@ namespace TomatoFocus
                     TitleBar.ButtonInactiveForegroundColor = Colors.DarkGray;
                     TitleBar.ButtonHoverBackgroundColor = Colors.Black;
                     TitleBar.ButtonPressedBackgroundColor = Colors.Gray;
+                }
+
+                if(LocalSettings.Values["DailyGoalMinutes"] == null)
+                {
+                    LocalSettings.Values["DailyGoalMinutes"] = 60;
+                }
+                else
+                {
+                    DailyGoalMinutes = (int)LocalSettings.Values["DailyGoalMinutes"];
+                }
+                if (LocalSettings.Values["OnceFocusMinutes"] == null)
+                {
+                    LocalSettings.Values["OnceFocusMinutes"] = 25;
+                }
+                else
+                {
+                    OnceFocusMinutes = (int)LocalSettings.Values["OnceFocusMinutes"];
+                }
+                if (LocalSettings.Values["OnceRestMinutes"] == null)
+                {
+                    LocalSettings.Values["OnceRestMinutes"] = 25;
+                }
+                else
+                {
+                    OnceRestMinutes = (int)LocalSettings.Values["OnceRestMinutes"];
+                }
+                if (LocalSettings.Values["ShowTasksPage"] == null)
+                {
+                    LocalSettings.Values["ShowTasksPage"] = true;
+                }
+                else
+                {
+                    ShowTasksPage = (bool)LocalSettings.Values["ShowTasksPage"];
+                }
+                if (LocalSettings.Values["ShowRoomPage"] == null)
+                {
+                    LocalSettings.Values["ShowRoomPage"] = true;
+                }
+                else
+                {
+                    ShowRoomPage = (bool)LocalSettings.Values["ShowRoomPage"];
                 }
             }
             catch { }

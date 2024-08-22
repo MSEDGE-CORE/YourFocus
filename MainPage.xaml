@@ -17,31 +17,61 @@
                 <Button Name="LeftBar" Background="Transparent" IsEnabled="False" CornerRadius="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="70" Margin="-2,-2,0,-2" Visibility="Collapsed"/>
                 <Button Name="BottomBar" Background="Transparent" IsEnabled="False" CornerRadius="0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="70" Margin="-2,0,-2,-2" Visibility="Collapsed"/>
                 <StackPanel Name="NavigationButtons">
+                    <StackPanel.Transitions >
+                        <TransitionCollection>
+                            <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>
+                        </TransitionCollection>
+                    </StackPanel.Transitions>
                     <ToggleButton Name="NavFocusButton" Background="Transparent" BorderBrush="Transparent" Width="64" Height="64" CornerRadius="8" IsChecked="False" Click="NavFocusButton_Click" Margin="0,0,4,4">
+                        <ToggleButton.Transitions >
+                            <TransitionCollection>
+                                <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>
+                            </TransitionCollection>
+                        </ToggleButton.Transitions>
                         <StackPanel>
                             <SymbolIcon Symbol="Clock" Margin="4,4,4,4"/>
                             <TextBlock Text="专注" HorizontalAlignment="Center" FontSize="12" FontFamily="HarmonyOS Sans SC"/>
                         </StackPanel>
                     </ToggleButton>
                     <ToggleButton Name="NavTasksButton" Background="Transparent" BorderBrush="Transparent" Width="64" Height="64" CornerRadius="8" IsChecked="False" Click="NavTaskButton_Click" Margin="0,0,4,4">
+                        <ToggleButton.Transitions >
+                            <TransitionCollection>
+                                <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>
+                            </TransitionCollection>
+                        </ToggleButton.Transitions>
                         <StackPanel>
-                            <SymbolIcon Symbol="Play" Margin="4,4,4,4"/>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF7EC;" Margin="4,4,4,4"/>
                             <TextBlock Text="待办" HorizontalAlignment="Center" FontSize="12" FontFamily="HarmonyOS Sans SC"/>
                         </StackPanel>
                     </ToggleButton>
                     <ToggleButton Name="NavRoomButton" Background="Transparent" BorderBrush="Transparent" Width="64" Height="64" CornerRadius="8" IsChecked="False" Click="NavRoomButton_Click" Margin="0,0,4,4">
+                        <ToggleButton.Transitions >
+                            <TransitionCollection>
+                                <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>
+                            </TransitionCollection>
+                        </ToggleButton.Transitions>
                         <StackPanel>
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE916;" Margin="4,4,4,4"/>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF7DB;" Margin="4,4,4,4"/>
                             <TextBlock Text="自习室" HorizontalAlignment="Center" FontSize="12" FontFamily="HarmonyOS Sans SC"/>
                         </StackPanel>
                     </ToggleButton>
                     <ToggleButton Name="NavStatsButton" Background="Transparent" BorderBrush="Transparent" Width="64" Height="64" CornerRadius="8" IsChecked="False" Click="NavStatsButton_Click" Margin="0,0,4,4">
+                        <ToggleButton.Transitions >
+                            <TransitionCollection>
+                                <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>
+                            </TransitionCollection>
+                        </ToggleButton.Transitions>
                         <StackPanel>
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEA8F;" Margin="4,4,4,4" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE25C;" Margin="4,4,4,4" />
                             <TextBlock Text="统计" HorizontalAlignment="Center" FontSize="12" FontFamily="HarmonyOS Sans SC"/>
                         </StackPanel>
                     </ToggleButton>
                     <ToggleButton Name="NavSettingsButton" Background="Transparent" BorderBrush="Transparent" Width="64" Height="64" CornerRadius="8" IsChecked="False" Click="NavSettingsButton_Click" Margin="0,0,0,4">
+                        <ToggleButton.Transitions >
+                            <TransitionCollection>
+                                <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>
+                            </TransitionCollection>
+                        </ToggleButton.Transitions>
                         <StackPanel>
                             <SymbolIcon Symbol="Setting" Margin="4,4,4,4"/>
                             <TextBlock Text="设置" HorizontalAlignment="Center" FontSize="12" FontFamily="HarmonyOS Sans SC"/>

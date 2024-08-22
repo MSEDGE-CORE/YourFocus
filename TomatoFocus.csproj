@@ -124,6 +124,9 @@
     <Compile Include="Focus.xaml.cs">
       <DependentUpon>Focus.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImmersiveFocusing.xaml.cs">
+      <DependentUpon>ImmersiveFocusing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Focus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImmersiveFocusing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,6 +10,13 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <Grid>
-
+        <muxc:ProgressRing Name="waitring" Width="60" Height="60"/>
+        <muxc:WebView2 Name="webview" Source="https://to-do.live.com/tasks/planned" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" NavigationCompleted="webview_NavigationCompleted" CoreWebView2Initialized="webview_CoreWebView2Initialized" Margin="0,32,0,0">
+            <muxc:WebView2.Resources>
+                <Storyboard x:Name="OStoryBoard">
+                    <DoubleAnimation x:Name="OStoryBoardDoubleAnimation" From="0" To="1" Storyboard.TargetName="webview" Storyboard.TargetProperty="Opacity" Duration="0:0:0.5" />
+                </Storyboard>
+            </muxc:WebView2.Resources>
+        </muxc:WebView2>
     </Grid>
 </Page>

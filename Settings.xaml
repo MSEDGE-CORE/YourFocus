@@ -26,6 +26,61 @@
                             <x:String>深色</x:String>
                         </ComboBox>
                     </Grid>
+                    
+                    <TextBlock FontSize = "14" FontWeight = "Bold" Text = "专注" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <TextBlock FontSize = "16" Text = "单次专注时长" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "OnceFocus_Selection" SelectionChanged="OnceFocus_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
+                            <x:String>25 分</x:String>
+                            <x:String>30 分</x:String>
+                            <x:String>35 分</x:String>
+                            <x:String>40 分</x:String>
+                            <x:String>45 分</x:String>
+                            <x:String>50 分</x:String>
+                            <x:String>55 分</x:String>
+                            <x:String>60 分</x:String>
+                        </ComboBox>
+                    </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <TextBlock FontSize = "16" Text = "单次休息时长" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "OnceRest_Selection" SelectionChanged="OnceRest_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
+                            <x:String>5 分</x:String>
+                            <x:String>10 分</x:String>
+                            <x:String>15 分</x:String>
+                        </ComboBox>
+                    </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <TextBlock FontSize = "16" Text = "每日目标" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "DailyGoal_Selection" SelectionChanged="DailyGoal_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
+                            <x:String>30 分</x:String>
+                            <x:String>1 时</x:String>
+                            <x:String>2 时</x:String>
+                            <x:String>3 时</x:String>
+                            <x:String>4 时</x:String>
+                        </ComboBox>
+                    </Grid>
+
+                    <TextBlock FontSize = "14" FontWeight = "Bold" Text = "待办" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <TextBlock FontSize = "16" Text = "显示待办 （Microsoft ToDo Web）" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ToggleSwitch Name="ShowTasksPage_Switch" Toggled="ShowTasksPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-52,0"/>
+                    </Grid>
+                    <TextBlock FontSize = "14" FontWeight = "Bold" Text = "自习室" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <TextBlock FontSize = "16" Text = "显示自习室" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ToggleSwitch Name="ShowRoomPage_Switch" Toggled="ShowRoomPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-52,0"/>
+                    </Grid>
+
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "关于" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "80" MaxHeight = "80" Height = "80">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0"/>
