@@ -52,12 +52,14 @@ namespace TomatoFocus
             TitleDropDown.Content = "倒计时";
             (Application.Current as App).DefFocusMode = 0;
             RelayCounterFrame();
+            (Application.Current as App).LocalSettings.Values["DefFocusMode"] = 0;
         }
         private void TitleCountUp_Click(object sender, RoutedEventArgs e)
         {
             TitleDropDown.Content = "正计时";
             (Application.Current as App).DefFocusMode = 1;
             RelayCounterFrame();
+            (Application.Current as App).LocalSettings.Values["DefFocusMode"] = 1;
         }
 
         private void MinuteUp_Click(object sender, RoutedEventArgs e)
@@ -101,7 +103,7 @@ namespace TomatoFocus
             MinuteSet_ValueChanged();
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e)
+        private void StartButton_Click(object sender = null, RoutedEventArgs e = null)
         {
             ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("FocusSetControls", FocusSetControls);
             if ((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated)
@@ -149,6 +151,14 @@ namespace TomatoFocus
                     AGridTime.TryStart(CountDownMinuteSet);
                 else if ((Application.Current as App).DefFocusMode == 1 || (Application.Current as App).FocusRepeated)
                     AGridTime.TryStart(CountTransparentTransition);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if ((Application.Current as App).StopWatch_IsStart != 0 || (Application.Current as App).Timer_IsStart != 0)
+            {
+                StartButton_Click();
             }
         }
     }

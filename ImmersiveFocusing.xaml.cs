@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.Notifications;
+using System.Collections;
 
 namespace TomatoFocus
 {
@@ -23,7 +25,8 @@ namespace TomatoFocus
     {
         DispatcherTimer Timer1;
         int TimeHour = 0, TimeMinute = 0, TimeSecond = 0;
-        int nowFoucsStatus = 0;
+        int nowFoucsStatus = 1; //0down 1up
+        int nowAlreadyFocused = 0;
 
         public ImmersiveFocusing()
         {
@@ -33,8 +36,9 @@ namespace TomatoFocus
             ApplicationViewTitleBar TitleBar = ApplicationView.GetForCurrentView().TitleBar;
             Window.Current.SetTitleBar(AppTitleBar);
 
-            PresetFocus();
             FocusRepeatButton.IsChecked = (Application.Current as App).FocusRepeated;
+            if ((Application.Current as App).DefFocusMode == 0)
+                FocusRepeatButton.IsEnabled = false;
 
             Timer1 = new DispatcherTimer();
             Timer1.Interval = new TimeSpan(0, 0, 0, 0, 5);
@@ -44,7 +48,7 @@ namespace TomatoFocus
 
         private void Timer_Tick(object sender, object e)
         {
-            if ((Application.Current as App).DefFocusMode == 0 || false)//Down
+            if ((Application.Current as App).DefFocusMode == 0 || nowFoucsStatus == 1)//Down
             {
                 if ((Application.Current as App).Timer_IsStart == 1)
                 {
@@ -92,6 +96,32 @@ namespace TomatoFocus
                     if (NowTicks <= 0)
                     {
                         NowTicks = 0;
+                        if (nowFoucsStatus == 0)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("Action", "Timer")
+                                .AddText("专注时段完成，休息一下吧")
+                                .AddText(DateTime.Now.ToLongTimeString().ToString())
+                                .Show();
+                        }
+                        else if (nowFoucsStatus == 1)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("Action", "Timer")
+                                .AddText("休息时段结束，继续努力吧")
+                                .AddText(DateTime.Now.ToLongTimeString().ToString())
+                                .Show();
+                        }
+
+                        if (!(Application.Current as App).FocusRepeated && nowFoucsStatus == 1)
+                        {
+                            ExitFocus();
+                            return;
+                        }
+                        else
+                        {
+                            PresetFocus();
+                        }
                         return;
                     }
 
@@ -103,7 +133,7 @@ namespace TomatoFocus
                     TextMinute.Text = Minute.ToString();
                     TextSecond.Text = Second.ToString();
 
-                    ProgressBar.Value = ((Application.Current as App).Timer_StartTick - DateTime.Now.Ticks / 10000) * 100.0 / (Application.Current as App).Timer_TotalTick;
+                    ProgressBar.Value = (((Application.Current as App).Timer_StartTick - DateTime.Now.Ticks / 10000) * 100.0) / (Application.Current as App).Timer_TotalTick;
                 }
                 else if ((Application.Current as App).Timer_IsStart == 2)
                 {
@@ -136,6 +166,8 @@ namespace TomatoFocus
                 {
                     FocusStartButtonIcon.Glyph = "\uF5B0";
                 }
+                OTimerShow.Visibility = Visibility.Collapsed;
+                ProgressGrid.Visibility = Visibility.Collapsed;
 
                 //TimeDisplay
                 if ((Application.Current as App).StopWatch_IsStart == 1)
@@ -189,45 +221,91 @@ namespace TomatoFocus
             (Application.Current as App).LocalSettings.Values["StopWatch_PauseTick"] = (Application.Current as App).StopWatch_PauseTick;
         }
 
+        int toFocusMinutes = 0, allFocusSteps = 0;
+        List<int> FocusQ = new List<int>();
+        private void PresetCountDownNotRepeated()
+        {
+            if(allFocusSteps == 0)
+            {
+                int[] FocusIndex = new int[2] { (Application.Current as App).OnceFocusMinutes, (Application.Current as App).OnceRestMinutes };
+                int i = 0, n = (Application.Current as App).FocusMinutes;
+                while(n >= FocusIndex[i])
+                {
+                    FocusQ.Add(FocusIndex[i]);
+                    n -= FocusIndex[i];
+                    i = 1 - i;
+                }
+                if(n != 0)
+                {
+                    FocusQ.Add(n);
+                }
+                allFocusSteps = FocusQ.Count;
+                toFocusMinutes = FocusQ[0];
+            }
+            else
+            {
+                nowFoucsStatus = allFocusSteps - FocusQ.Count;
+                toFocusMinutes = FocusQ[0];
+                FocusQ.Remove(0);
+            }
+        }
         private void PresetFocus()
         {
-            if((Application.Current as App).DefFocusMode == 0)//Down
+            if((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated)//
             {
-                if (!(Application.Current as App).FocusRepeated)
-                {
-                    TextHour.Text = ((Application.Current as App).FocusMinutes / 60).ToString();
-                    TextMinute.Text = ((Application.Current as App).FocusMinutes % 60).ToString();
-                    TextSecond.Text = "0";
+                PresetCountDownNotRepeated();
+                TextHour.Text = (toFocusMinutes / 60).ToString();
+                TextMinute.Text = (toFocusMinutes % 60).ToString();
+                TextSecond.Text = "0";
 
-                    (Application.Current as App).Timer_IsStart = 1;
-                    (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + (Application.Current as App).FocusMinutes * 60 * 1000 + 1000;
-                    (Application.Current as App).Timer_TotalTick = (Application.Current as App).FocusMinutes * 60 * 1000;
+                (Application.Current as App).Timer_IsStart = 1;
+                (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + toFocusMinutes * 60 * 1000 + 1000;
+                (Application.Current as App).Timer_TotalTick = toFocusMinutes * 60 * 1000;
+            }
+            else if(nowFoucsStatus == 1)
+            {
+                nowFoucsStatus = 0;
+                if ((Application.Current as App).DefFocusMode == 0)//Down
+                {
+                    if ((Application.Current as App).FocusRepeated)
+                    {
+                        TextHour.Text = ((Application.Current as App).OnceFocusMinutes / 60).ToString();
+                        TextMinute.Text = ((Application.Current as App).OnceFocusMinutes % 60).ToString();
+                        TextSecond.Text = "0";
+
+                        (Application.Current as App).Timer_IsStart = 1;
+                        (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + (Application.Current as App).OnceFocusMinutes * 60 * 1000 + 1000;
+                        (Application.Current as App).Timer_TotalTick = (Application.Current as App).OnceFocusMinutes * 60 * 1000;
+                    }
                 }
-                else if ((Application.Current as App).FocusRepeated)
+                else if ((Application.Current as App).DefFocusMode == 1)//Up
                 {
-                    TextHour.Text = ((Application.Current as App).OnceFocusMinutes / 60).ToString();
-                    TextMinute.Text = ((Application.Current as App).OnceFocusMinutes % 60).ToString();
+                    TextHour.Text = "0";
+                    TextMinute.Text = "0";
                     TextSecond.Text = "0";
 
-                    (Application.Current as App).Timer_IsStart = 1;
-                    (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + (Application.Current as App).OnceFocusMinutes * 60 * 1000 + 1000;
-                    (Application.Current as App).Timer_TotalTick = (Application.Current as App).OnceFocusMinutes * 60 * 1000;
+                    (Application.Current as App).StopWatch_IsStart = 1;
+                    (Application.Current as App).StopWatch_StartTick = (long)DateTime.Now.Ticks / 10000;
                 }
             }
-            else if((Application.Current as App).DefFocusMode == 1)//Up
+            else if(nowFoucsStatus == 0)
             {
-                (Application.Current as App).StopWatch_IsStart = 1;
-                (Application.Current as App).StopWatch_StartTick = (long)DateTime.Now.Ticks / 10000;
-                TextHour.Text = "0";
-                TextMinute.Text = "0";
+                nowFoucsStatus = 1;
+
+                TextHour.Text = ((Application.Current as App).OnceRestMinutes / 60).ToString();
+                TextMinute.Text = ((Application.Current as App).OnceRestMinutes % 60).ToString();
                 TextSecond.Text = "0";
+
+                (Application.Current as App).Timer_IsStart = 1;
+                (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + (Application.Current as App).OnceRestMinutes * 60 * 1000 + 1000;
+                (Application.Current as App).Timer_TotalTick = (Application.Current as App).OnceRestMinutes * 60 * 1000;
             }
             FileFocus();
         }
 
         private void FocusStartButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((Application.Current as App).DefFocusMode == 0)
+            if ((Application.Current as App).DefFocusMode == 0 || nowFoucsStatus == 1)
             {
                 if ((Application.Current as App).Timer_IsStart == 1)
                 {
@@ -265,24 +343,55 @@ namespace TomatoFocus
             Dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
             Dialog.Title = "离开专注？";
             Dialog.Content = "清选择您的操作";
-            Dialog.PrimaryButtonText = "跳过本次";
             Dialog.SecondaryButtonText = "离开专注";
             Dialog.CloseButtonText = "取消";
-            Dialog.DefaultButton = ContentDialogButton.Primary;
+            if ((Application.Current as App).DefFocusMode == 1 || (Application.Current as App).FocusRepeated == true)
+            {
+                Dialog.PrimaryButtonText = "跳过本次";
+                Dialog.DefaultButton = ContentDialogButton.Primary;
+            }
+            else
+            {
+                Dialog.DefaultButton = ContentDialogButton.Close;
+            }
             var result = await Dialog.ShowAsync();
 
             if (result != ContentDialogResult.None)
             {
                 if(result == ContentDialogResult.Primary)
                 {
+                    if((Application.Current as App).DefFocusMode == 0)
+                    {
 
+                        PresetFocus();
+                    }
+                    else if((Application.Current as App).DefFocusMode == 1)
+                    {
+
+                        PresetFocus();
+                    }
                 }
                 else if(result == ContentDialogResult.Secondary)
                 {
-
-                    Frame.GoBack();
+                    ExitFocus();
                 }
             }
+        }
+
+        private void ExitFocus()
+        {
+            (Application.Current as App).Timer_IsStart = 0;
+            (Application.Current as App).Timer_StartTick = 0;
+            (Application.Current as App).Timer_PauseTick = 0;
+            (Application.Current as App).StopWatch_IsStart = 0;
+            (Application.Current as App).StopWatch_StartTick = 0;
+            (Application.Current as App).StopWatch_PauseTick = 0;
+
+
+
+            FileFocus();
+            Timer1.Stop();
+            Frame.GoBack();
         }
 
         private void FocusRepeatButton_Click(object sender, RoutedEventArgs e)

@@ -192,6 +192,7 @@ namespace TomatoFocus
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+
         }
     }
 }

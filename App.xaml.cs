@@ -124,7 +124,15 @@ namespace TomatoFocus
                     TitleBar.ButtonPressedBackgroundColor = Colors.Gray;
                 }
 
-                if(LocalSettings.Values["DailyGoalMinutes"] == null)
+                if (LocalSettings.Values["DefFocusMode"] == null)
+                {
+                    LocalSettings.Values["DefFocusMode"] = 0;
+                }
+                else
+                {
+                    DefFocusMode = (int)LocalSettings.Values["DefFocusMode"];
+                }
+                if (LocalSettings.Values["DailyGoalMinutes"] == null)
                 {
                     LocalSettings.Values["DailyGoalMinutes"] = 60;
                 }
@@ -171,6 +179,33 @@ namespace TomatoFocus
                 else
                 {
                     ShowRoomPage = (bool)LocalSettings.Values["ShowRoomPage"];
+                }
+
+                if (LocalSettings.Values["Timer_IsStart"] != null)
+                {
+                    (Application.Current as App).Timer_IsStart = (int)(Application.Current as App).LocalSettings.Values["Timer_IsStart"];
+                    (Application.Current as App).Timer_StartTick = (long)(Application.Current as App).LocalSettings.Values["Timer_StartTick"];
+                    (Application.Current as App).Timer_PauseTick = (long)(Application.Current as App).LocalSettings.Values["Timer_PauseTick"];
+                    (Application.Current as App).Timer_TotalTick = (long)(Application.Current as App).LocalSettings.Values["Timer_TotalTick"];
+                }
+                else
+                {
+                    (Application.Current as App).LocalSettings.Values["Timer_IsStart"] = (Application.Current as App).Timer_IsStart;
+                    (Application.Current as App).LocalSettings.Values["Timer_StartTick"] = (Application.Current as App).Timer_StartTick;
+                    (Application.Current as App).LocalSettings.Values["Timer_PauseTick"] = (Application.Current as App).Timer_PauseTick;
+                    (Application.Current as App).LocalSettings.Values["Timer_TotalTick"] = (Application.Current as App).Timer_TotalTick;
+                }
+                if (LocalSettings.Values["StopWatch_IsStart"] != null)
+                {
+                    (Application.Current as App).StopWatch_IsStart = (int)(Application.Current as App).LocalSettings.Values["StopWatch_IsStart"];
+                    (Application.Current as App).StopWatch_StartTick = (long)(Application.Current as App).LocalSettings.Values["StopWatch_StartTick"];
+                    (Application.Current as App).StopWatch_PauseTick = (long)(Application.Current as App).LocalSettings.Values["StopWatch_PauseTick"];
+                }
+                else
+                {
+                    (Application.Current as App).LocalSettings.Values["StopWatch_IsStart"] = (Application.Current as App).StopWatch_IsStart;
+                    (Application.Current as App).LocalSettings.Values["StopWatch_StartTick"] = (Application.Current as App).StopWatch_StartTick;
+                    (Application.Current as App).LocalSettings.Values["StopWatch_PauseTick"] = (Application.Current as App).StopWatch_PauseTick;
                 }
             }
             catch { }

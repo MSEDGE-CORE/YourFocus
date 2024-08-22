@@ -14,7 +14,6 @@
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
         <StackPanel Name="GridTime" VerticalAlignment="Center" HorizontalAlignment="Stretch" Orientation="Vertical">
             <Grid Name="OTimerShow" VerticalAlignment="Center" HorizontalAlignment="Center" Height="56" Visibility="Collapsed"/>
-            
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBlock FontFamily="HarmonyOS Sans SC" FontWeight="Bold" FontSize="1" x:Name = "TimeDisplay"  VerticalAlignment = "Center" HorizontalAlignment = "Center" Visibility="Collapsed"/>
                 <Grid Name="GridHour" VerticalAlignment = "Bottom">

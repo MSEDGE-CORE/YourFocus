@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Loaded="Page_Loaded">
 
     <Grid HorizontalAlignment="Stretch">
         <Grid HorizontalAlignment="Stretch" Margin="40,32,40,0" MaxWidth="720">
