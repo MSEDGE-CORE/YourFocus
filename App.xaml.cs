@@ -24,7 +24,7 @@ namespace TomatoFocus
     {
         public Frame RootFrame;
         public ApplicationDataContainer LocalSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        
+
         public int DefFocusMode = 0;
         public int FocusMinutes = 60;
         public int AlreadyFocusedMinutes = 0;
@@ -32,6 +32,15 @@ namespace TomatoFocus
         public int OnceFocusMinutes = 25;
         public int OnceRestMinutes = 5;
         public bool FocusRepeated = false;
+
+        public int StopWatch_IsStart = 0;
+        public long StopWatch_StartTick = 0;
+        public long StopWatch_PauseTick = 0;
+
+        public int Timer_IsStart = 0;
+        public long Timer_StartTick = 0;
+        public long Timer_PauseTick = 0;
+        public long Timer_TotalTick = 0;
 
         public bool ShowTasksPage = true;
         public bool ShowRoomPage = true;
@@ -138,6 +147,14 @@ namespace TomatoFocus
                 else
                 {
                     OnceRestMinutes = (int)LocalSettings.Values["OnceRestMinutes"];
+                }
+                if (LocalSettings.Values["FocusMinutes"] == null)
+                {
+                    LocalSettings.Values["FocusMinutes"] = 60;
+                }
+                else
+                {
+                    FocusMinutes = (int)LocalSettings.Values["FocusMinutes"];
                 }
                 if (LocalSettings.Values["ShowTasksPage"] == null)
                 {

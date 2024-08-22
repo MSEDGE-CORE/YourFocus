@@ -25,6 +25,7 @@
                 <StackPanel MaxWidth="720" Margin="40,0,40,32">
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" IsEnabled="False"/>
+                        <Rectangle Name="CountTransparentTransition" Margin="0,96,0,0" Width="200" Height="84" Fill="Transparent"/>
                         <StackPanel>
                             <TextBlock FontSize = "24" Text = "开始专注" Margin = "0,40,0,0" VerticalAlignment = "Top" HorizontalAlignment = "Center" FontFamily="HarmonyOS Sans SC" FontWeight="SemiBold"/>
                             <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
@@ -39,7 +40,7 @@
                                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE949;" FontSize="16"/>
                                 </Button>
                             </Grid>
-                            <Grid Margin="0,35,0,40">
+                            <Grid Margin="0,35,0,40" Name="FocusSetControls">
                                 <Grid.Transitions >
                                     <TransitionCollection>
                                         <RepositionThemeTransition x:DefaultBindMode="TwoWay"/>

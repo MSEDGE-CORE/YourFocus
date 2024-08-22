@@ -155,7 +155,7 @@ namespace TomatoFocus
                 ContentFrame.Margin = new Thickness(0, 0, 0, 68);
             }
 
-            if((Application.Current as App).ShowTasksPage)
+            if ((Application.Current as App).ShowTasksPage)
             {
                 NavTasksButton.Visibility = Visibility.Visible;
             }
@@ -188,6 +188,10 @@ namespace TomatoFocus
                 AcrylicStoryBoardDoubleAnimation.To = 0;
                 AcrylicStoryBoard.Begin();
             }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
         }
     }
 }

@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace TomatoFocus
@@ -33,6 +34,7 @@ namespace TomatoFocus
             MinuteSet.Text = (Application.Current as App).FocusMinutes.ToString();
             isRepeatButton.IsChecked = (Application.Current as App).FocusRepeated;
             GoalProgressRing.Value = 0;
+            RelayCounterFrame();
 
             TextAlreadyFocused.Text = string.Format("已专注 {0} 分\n目标 {1} 分", (Application.Current as App).AlreadyFocusedMinutes, (Application.Current as App).DailyGoalMinutes);
             TextPercentFocused.Text = string.Format("{0}%", (int)((Application.Current as App).AlreadyFocusedMinutes * 1.0 / (Application.Current as App).DailyGoalMinutes * 100));
@@ -40,9 +42,9 @@ namespace TomatoFocus
 
         private void RelayCounterFrame()
         {
-            if((Application.Current as App).DefFocusMode == 0)
+            if((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated)
                 CountDownMinuteSet.Visibility = Visibility.Visible;
-            else if((Application.Current as App).DefFocusMode == 1)
+            else if((Application.Current as App).DefFocusMode == 1 || (Application.Current as App).FocusRepeated)
                 CountDownMinuteSet.Visibility = Visibility.Collapsed;
         }
         private void TitleCountDown_Click(object sender, RoutedEventArgs e)
@@ -101,7 +103,12 @@ namespace TomatoFocus
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("FocusSetControls", FocusSetControls);
+            if ((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated)
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("GridTime", CountDownMinuteSet);
+            else if((Application.Current as App).DefFocusMode == 1 || (Application.Current as App).FocusRepeated)
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("GridTime", CountTransparentTransition);
+            ((Window.Current.Content as Frame)?.Content as MainPage).Frame.Navigate(typeof(ImmersiveFocusing),null, new DrillInNavigationTransitionInfo());
         }
 
         private void GoalProgressRing_Loaded(object sender = null, RoutedEventArgs e = null)
@@ -117,6 +124,32 @@ namespace TomatoFocus
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
         {
             (Application.Current as App).FocusRepeated = (bool)isRepeatButton.IsChecked;
+            RelayCounterFrame();
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            ConnectedAnimation AFocusSetControls = ConnectedAnimationService.GetForCurrentView().GetAnimation("FocusControls");
+            if (AFocusSetControls != null)
+            {
+                AFocusSetControls.Configuration = new DirectConnectedAnimationConfiguration();
+                AFocusSetControls.TryStart(FocusSetControls);
+            }
+            ConnectedAnimation AGridTime = ConnectedAnimationService.GetForCurrentView().GetAnimation("GridTime");
+            if (AFocusSetControls != null)
+            {
+                AGridTime.Configuration = new DirectConnectedAnimationConfiguration();
+                if ((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated)
+                    AGridTime.TryStart(CountDownMinuteSet);
+                else if ((Application.Current as App).DefFocusMode == 1 || (Application.Current as App).FocusRepeated)
+                    AGridTime.TryStart(CountTransparentTransition);
+            }
         }
     }
 }
