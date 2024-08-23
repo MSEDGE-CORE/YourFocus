@@ -27,7 +27,7 @@ namespace TomatoFocus
 
         public int DefFocusMode = 0;
         public int FocusMinutes = 60;
-        public int AlreadyFocusedMinutes = 0;
+        public double AlreadyFocusedMinutes = 0;
         public int DailyGoalMinutes = 60;
         public int OnceFocusMinutes = 25;
         public int OnceRestMinutes = 5;
@@ -163,6 +163,14 @@ namespace TomatoFocus
                 else
                 {
                     FocusMinutes = (int)LocalSettings.Values["FocusMinutes"];
+                }
+                if (LocalSettings.Values["FocusRepeated"] == null)
+                {
+                    LocalSettings.Values["FocusRepeated"] = false;
+                }
+                else
+                {
+                    FocusRepeated = (bool)LocalSettings.Values["FocusRepeated"];
                 }
                 if (LocalSettings.Values["ShowTasksPage"] == null)
                 {

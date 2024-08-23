@@ -36,7 +36,7 @@ namespace TomatoFocus
             GoalProgressRing.Value = 0;
             RelayCounterFrame();
 
-            TextAlreadyFocused.Text = string.Format("已专注 {0} 分\n目标 {1} 分", (Application.Current as App).AlreadyFocusedMinutes, (Application.Current as App).DailyGoalMinutes);
+            TextAlreadyFocused.Text = string.Format("已专注 {0} 分\n目标 {1} 分", (int)(Application.Current as App).AlreadyFocusedMinutes, (Application.Current as App).DailyGoalMinutes);
             TextPercentFocused.Text = string.Format("{0}%", (int)((Application.Current as App).AlreadyFocusedMinutes * 1.0 / (Application.Current as App).DailyGoalMinutes * 100));
         }
 
@@ -96,6 +96,7 @@ namespace TomatoFocus
                 MinuteSet.Text = "1";
             }
             (Application.Current as App).FocusMinutes = (int)double.Parse(MinuteSet.Text);
+            (Application.Current as App).LocalSettings.Values["FocusMinutes"] = (Application.Current as App).FocusMinutes;
         }
 
         private void MinuteSet_LostFocus(object sender, RoutedEventArgs e)
@@ -127,6 +128,7 @@ namespace TomatoFocus
         {
             (Application.Current as App).FocusRepeated = (bool)isRepeatButton.IsChecked;
             RelayCounterFrame();
+            (Application.Current as App).LocalSettings.Values["FocusRepeated"] = (Application.Current as App).FocusRepeated;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

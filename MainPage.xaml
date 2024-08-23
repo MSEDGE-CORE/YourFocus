@@ -12,13 +12,7 @@
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid HorizontalAlignment="Stretch" MinWidth="360">
-            <Frame Name="ContentFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Frame.Transitions >
-                    <TransitionCollection>
-                        <RepositionThemeTransition/>
-                    </TransitionCollection>
-                </Frame.Transitions>
-            </Frame>
+            <Frame Name="ContentFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Grid Name="NavigationBar">
                 <Button Name="LeftBar" Background="Transparent" IsEnabled="False" CornerRadius="0" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="70" Margin="-2,-2,0,-2" Visibility="Collapsed"/>
                 <Button Name="BottomBar" Background="Transparent" IsEnabled="False" CornerRadius="0" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="70" Margin="-2,0,-2,-2" Visibility="Collapsed"/>
