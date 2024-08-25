@@ -215,6 +215,16 @@ namespace TomatoFocus
                     (Application.Current as App).LocalSettings.Values["StopWatch_StartTick"] = (Application.Current as App).StopWatch_StartTick;
                     (Application.Current as App).LocalSettings.Values["StopWatch_PauseTick"] = (Application.Current as App).StopWatch_PauseTick;
                 }
+
+                string theDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
+                Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                Windows.Storage.StorageFile file;
+                try
+                {
+                    file = await StorageFolder.GetFileAsync("FocusHistory\\" + theDate + ".txt");
+                    AlreadyFocusedMinutes = double.Parse((await Windows.Storage.FileIO.ReadLinesAsync(file))[0]);
+                }
+                catch { }
             }
             catch { }
         }

@@ -129,6 +129,7 @@ namespace TomatoFocus
                         NowTicks = 0;
                         if (nowFoucsStatus == 0)
                         {
+                            CountFocusingMinutes();
                             new ToastContentBuilder()
                                 .AddArgument("Action", "Timer")
                                 .AddText("专注时段完成，休息一下吧")
@@ -248,7 +249,7 @@ namespace TomatoFocus
             SetHMS();
         }
 
-        private void FileFocus()
+        private async void FileFocus()
         {
             (Application.Current as App).LocalSettings.Values["FocusMinutes"] = (Application.Current as App).FocusMinutes;
             (Application.Current as App).LocalSettings.Values["Timer_IsStart"] = (Application.Current as App).Timer_IsStart;
@@ -262,6 +263,18 @@ namespace TomatoFocus
             (Application.Current as App).LocalSettings.Values["allFocusSteps"] = allFocusSteps;
             (Application.Current as App).LocalSettings.Values["toFocusSteps"] = FocusQ.Count;
             (Application.Current as App).LocalSettings.Values["nowFoucsStatus"] = nowFoucsStatus;
+
+
+            double TodayMinutes = (Application.Current as App).AlreadyFocusedMinutes;
+            double TodayPercent = (Application.Current as App).AlreadyFocusedMinutes * 100.0 / (Application.Current as App).DailyGoalMinutes;
+            string theDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
+            try
+            {
+                Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                Windows.Storage.StorageFile FileDay = await StorageFolder.CreateFileAsync("FocusHistory\\" + theDate + ".txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+                await Windows.Storage.FileIO.WriteTextAsync(FileDay, TodayMinutes + "\n" + TodayPercent + "\n");
+            }
+            catch { }
         }
 
         int toFocusMinutes = 0, allFocusSteps = 0;
@@ -445,6 +458,7 @@ namespace TomatoFocus
                             (Application.Current as App).Timer_IsStart = 0;
                             if (!(Application.Current as App).FocusRepeated)
                             {
+                                CountFocusingMinutes();
                                 ExitFocus();
                                 return;
                             }
@@ -454,6 +468,7 @@ namespace TomatoFocus
                 }
                 else if(result == ContentDialogResult.Secondary)
                 {
+                    CountFocusingMinutes();
                     ExitFocus();
                 }
             }
@@ -502,8 +517,6 @@ namespace TomatoFocus
             {
                 ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
-
-
 
             FileFocus();
             Frame.GoBack();

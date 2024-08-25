@@ -48,11 +48,17 @@ namespace TomatoFocus
             Timer1.Start();
         }
 
+        double AlreadyFocusedMinutes = 0;
         private void Timer_Tick(object sender, object e)
         {
             if (AcrylicBoard.Visibility == Visibility.Visible && AcrylicBoard.Opacity == 0)
             {
                 AcrylicBoard.Visibility = Visibility.Collapsed;
+            }
+            if (ContentFrame.CurrentSourcePageType == typeof(Focus) && AlreadyFocusedMinutes != (Application.Current as App).AlreadyFocusedMinutes)
+            {
+                AlreadyFocusedMinutes = (Application.Current as App).AlreadyFocusedMinutes;
+                (ContentFrame.Content as Focus).GoalProgressRing_Loaded();
             }
         }
 
