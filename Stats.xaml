@@ -7,9 +7,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    SizeChanged="Page_SizeChanged">
 
-    <Grid>
+    <Grid HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" Margin="40,32,40,0" MaxWidth="720">
+            <TextBlock x:Name="PageTitle" Text="统计" FontWeight="Bold" Margin="4,32,0,0" FontSize="48" FontFamily="HarmonyOS Sans SC"/>
+        </Grid>
+        <ScrollViewer Name="ScrollViewer" IsTabStop="True" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="0,144,0,0">
+            <Grid>
+                <StackPanel MaxWidth="720" Margin="40,0,40,32">
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight="60" MaxHeight="60" Height="60" >
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "20" Text = "今日专注时长" Margin = "22,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" FontWeight="Medium"/>
+                        <TextBlock Name="todayAlreadyFocused" FontSize = "20" Margin = "200,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight="60" MaxHeight="60" Height="60" >
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "20" Text = "累计专注时长" Margin = "22,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" FontWeight="Medium"/>
+                        <TextBlock Name="allAlreadyFocused" FontSize = "20" Margin = "200,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" Name="HistoryBoard">
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "20" Text = "历史记录" Margin = "22,16,0,16" VerticalAlignment = "Top" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" FontWeight="Medium"/>
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

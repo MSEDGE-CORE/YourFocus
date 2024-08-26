@@ -17,7 +17,7 @@
             <Grid>
                 <StackPanel MaxWidth="720" Margin="40,0,40,32">
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
-                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "应用程序主题" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "Theme_Selection" SelectionChanged="Theme_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
@@ -29,7 +29,7 @@
                     
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "专注" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
-                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "单次专注时长" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "OnceFocus_Selection" SelectionChanged="OnceFocus_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
@@ -44,7 +44,7 @@
                         </ComboBox>
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
-                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "单次休息时长" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "OnceRest_Selection" SelectionChanged="OnceRest_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
@@ -54,7 +54,7 @@
                         </ComboBox>
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
-                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "每日目标" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "DailyGoal_Selection" SelectionChanged="DailyGoal_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
@@ -65,17 +65,24 @@
                             <x:String>4 时</x:String>
                         </ComboBox>
                     </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "自定义专注页" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE974;" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,28,0" FontSize="14"/>
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <Button Name="CustomizeFocusPage" Click="CustomizeFocusPage_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"/>
+                    </Grid>
 
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "待办" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
-                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "显示待办 （Microsoft ToDo Web）" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ToggleSwitch Name="ShowTasksPage_Switch" Toggled="ShowTasksPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-52,0"/>
                     </Grid>
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "自习室" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
-                        <Button HorizontalAlignment="Stretch" MinHeight="68" MaxHeight="68" Height="68" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "显示自习室" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ToggleSwitch Name="ShowRoomPage_Switch" Toggled="ShowRoomPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-52,0"/>
@@ -83,12 +90,12 @@
 
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "关于" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "80" MaxHeight = "80" Height = "80">
-                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock Name = "TextVersion" FontSize = "14" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,12" MinHeight="60" MaxHeight="60" Height="60" >
-                        <Button HorizontalAlignment="Stretch" MinHeight="60" MaxHeight="60" Height="60" Margin="0,0,0,0"/>
+                        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
                             <HyperlinkButton Name="ProjectHome" Content="项目主页" VerticalAlignment="Center" Margin="0,4,0,0" NavigateUri="https://github.com/MSEDGE-CORE/TomatoFocus"/>

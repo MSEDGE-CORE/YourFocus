@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace TomatoFocus
 {
@@ -113,6 +114,11 @@ namespace TomatoFocus
             ((Window.Current.Content as Frame)?.Content as MainPage).Page_SizeChanged();
 
             (Application.Current as App).LocalSettings.Values["ShowRoomPage"] = (Application.Current as App).ShowRoomPage;
+        }
+
+        private void CustomizeFocusPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsCustomizeFocusPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
     }
 }

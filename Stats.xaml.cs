@@ -20,6 +20,20 @@ namespace TomatoFocus
         public Stats()
         {
             this.InitializeComponent();
+            todayAlreadyFocused.Text = ((int)(Application.Current as App).AlreadyFocusedMinutes).ToString() + " 分";
+            allAlreadyFocused.Text = ((int)(Application.Current as App).allAlreadyFocusedMinutes).ToString() + " 分";
+            GetHistory();
+        }
+
+        public async void GetHistory()
+        {
+            Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile file;
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            HistoryBoard.Height = ActualHeight - 180;
         }
     }
 }

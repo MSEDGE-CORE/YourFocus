@@ -55,6 +55,7 @@ namespace TomatoFocus
             {
                 AcrylicBoard.Visibility = Visibility.Collapsed;
             }
+
             if (ContentFrame.CurrentSourcePageType == typeof(Focus) && AlreadyFocusedMinutes != (Application.Current as App).AlreadyFocusedMinutes)
             {
                 AlreadyFocusedMinutes = (Application.Current as App).AlreadyFocusedMinutes;

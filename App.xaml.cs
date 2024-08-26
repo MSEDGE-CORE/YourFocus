@@ -28,6 +28,7 @@ namespace TomatoFocus
         public int DefFocusMode = 0;
         public int FocusMinutes = 60;
         public double AlreadyFocusedMinutes = 0;
+        public double allAlreadyFocusedMinutes = 0;
         public int DailyGoalMinutes = 60;
         public int OnceFocusMinutes = 25;
         public int OnceRestMinutes = 5;
@@ -221,6 +222,8 @@ namespace TomatoFocus
                 Windows.Storage.StorageFile file;
                 try
                 {
+                    file = await StorageFolder.GetFileAsync("FocusHistory\\AllFocused.txt");
+                    allAlreadyFocusedMinutes = double.Parse((await Windows.Storage.FileIO.ReadLinesAsync(file))[0]);
                     file = await StorageFolder.GetFileAsync("FocusHistory\\" + theDate + ".txt");
                     AlreadyFocusedMinutes = double.Parse((await Windows.Storage.FileIO.ReadLinesAsync(file))[0]);
                 }

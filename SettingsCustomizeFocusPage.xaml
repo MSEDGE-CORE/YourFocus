@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="TomatoFocus.SettingsCustomizeFocusPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TomatoFocus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True" >
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" Margin="40,32,40,0" MaxWidth="720">
+            <TextBlock x:Name="PageTitle" Text="自定义专注页" FontWeight="Medium" Margin="64,36,0,0" FontSize="42" FontFamily="HarmonyOS Sans SC"/>
+            <Button Name="Back" Click="Back_Click" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Margin="-1,36,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="60">
+                <FontIcon Glyph="&#xE830;" FontSize="32" Margin="0,2,0,0"/>
+            </Button>
+        </Grid>
+        <ScrollViewer Name="ScrollViewer" IsTabStop="True" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="0,144,0,0">
+            <Grid>
+                <StackPanel MaxWidth="720" Margin="40,0,40,32">
+                    
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Collections;
+using Windows.Storage;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace TomatoFocus
 {
@@ -65,7 +68,6 @@ namespace TomatoFocus
             {
                 nowFoucsStatus = (int)(Application.Current as App).LocalSettings.Values["nowFoucsStatus"];
             }
-
             FocusRepeatButton.IsChecked = (Application.Current as App).FocusRepeated;
             if ((Application.Current as App).DefFocusMode == 0)
                 FocusRepeatButton.IsEnabled = false;
@@ -249,7 +251,7 @@ namespace TomatoFocus
             SetHMS();
         }
 
-        private async void FileFocus()
+        public async void FileFocus(bool f = true)
         {
             (Application.Current as App).LocalSettings.Values["FocusMinutes"] = (Application.Current as App).FocusMinutes;
             (Application.Current as App).LocalSettings.Values["Timer_IsStart"] = (Application.Current as App).Timer_IsStart;
@@ -264,17 +266,43 @@ namespace TomatoFocus
             (Application.Current as App).LocalSettings.Values["toFocusSteps"] = FocusQ.Count;
             (Application.Current as App).LocalSettings.Values["nowFoucsStatus"] = nowFoucsStatus;
 
-
-            double TodayMinutes = (Application.Current as App).AlreadyFocusedMinutes;
-            double TodayPercent = (Application.Current as App).AlreadyFocusedMinutes * 100.0 / (Application.Current as App).DailyGoalMinutes;
-            string theDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
-            try
+            if(f)
             {
+                double TodayMinutes = (Application.Current as App).AlreadyFocusedMinutes;
+                double TodayPercent = (Application.Current as App).AlreadyFocusedMinutes * 100.0 / (Application.Current as App).DailyGoalMinutes;
+                string theDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
                 Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                Windows.Storage.StorageFile FileDay = await StorageFolder.CreateFileAsync("FocusHistory\\" + theDate + ".txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
-                await Windows.Storage.FileIO.WriteTextAsync(FileDay, TodayMinutes + "\n" + TodayPercent + "\n");
+                Windows.Storage.StorageFile file;
+                List<string> Dates = new List<string>();
+                try
+                {
+                    Windows.Storage.StorageFile FileDay = await StorageFolder.CreateFileAsync("FocusHistory\\" + theDate + ".txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+                    await Windows.Storage.FileIO.WriteTextAsync(FileDay, TodayMinutes + "\n" + TodayPercent + "\n");
+                    Windows.Storage.StorageFile FileAll = await StorageFolder.CreateFileAsync("FocusHistory\\AllFocused.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+                    await Windows.Storage.FileIO.WriteTextAsync(FileAll, (Application.Current as App).allAlreadyFocusedMinutes.ToString() + "\n");
+                }
+                catch { }
+                try
+                {
+                    file = await StorageFolder.GetFileAsync("FocusHistory\\CountFocused.txt");
+                    int c = 0;
+                    var FileList = await Windows.Storage.FileIO.ReadLinesAsync(file);
+                    c = int.Parse(FileList[0]);
+                    for (int i = 1; i <= c; i++)
+                        Dates.Add(FileList[i].ToString());
+                }
+                catch { }
+                if (Dates.Count == 0 || theDate != Dates[0])
+                {
+                    Dates.Insert(0, theDate);
+                    Windows.Storage.StorageFile FileCount = await StorageFolder.CreateFileAsync("FocusHistory\\CountFocused.txt", Windows.Storage.CreationCollisionOption.OpenIfExists);
+                    StringBuilder sDates = new StringBuilder();
+                    sDates.Append(Dates.Count.ToString() + "\n");
+                    foreach (string date in Dates)
+                        sDates.Append(date + "\n");
+                    await Windows.Storage.FileIO.WriteTextAsync(FileCount, sDates.ToString());
+                }
             }
-            catch { }
         }
 
         int toFocusMinutes = 0, allFocusSteps = 0;
@@ -370,7 +398,7 @@ namespace TomatoFocus
                 (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + (Application.Current as App).OnceRestMinutes * 60 * 1000 + 1000;
                 (Application.Current as App).Timer_TotalTick = (Application.Current as App).OnceRestMinutes * 60 * 1000;
             }
-            FileFocus();
+            FileFocus(false);
         }
 
         private void FocusStartButton_Click(object sender, RoutedEventArgs e)
@@ -435,7 +463,8 @@ namespace TomatoFocus
                 {
                     if ((Application.Current as App).DefFocusMode == 0)
                     {
-                        CountFocusingMinutes();
+                        if (nowFoucsStatus == 0)
+                            CountFocusingMinutes();
                         (Application.Current as App).Timer_IsStart = 0;
                         PresetFocus();
                     }
@@ -458,7 +487,6 @@ namespace TomatoFocus
                             (Application.Current as App).Timer_IsStart = 0;
                             if (!(Application.Current as App).FocusRepeated)
                             {
-                                CountFocusingMinutes();
                                 ExitFocus();
                                 return;
                             }
@@ -491,6 +519,7 @@ namespace TomatoFocus
             }
             double m = (double)NowTicks * 1.0 / 1000 / 60;
             (Application.Current as App).AlreadyFocusedMinutes += m;
+            (Application.Current as App).allAlreadyFocusedMinutes += m;
         }
 
         private void ExitFocus()
@@ -586,9 +615,9 @@ namespace TomatoFocus
         {
             if (ActualWidth > 0 && ActualHeight - 60 - 32 > 0)
             {
-                if ((ActualHeight - 60 - 32) / 1.5 > (ActualWidth) / 7)
+                if ((ActualHeight - 60 - 32) / 1.5 > (ActualWidth) / 6)
                 {
-                    TimeDisplay.FontSize = (ActualWidth) * 1.0 / 7;
+                    TimeDisplay.FontSize = (ActualWidth) * 1.0 / 6;
                 }
                 else
                 {
