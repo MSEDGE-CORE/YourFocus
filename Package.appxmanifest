@@ -9,7 +9,7 @@
   <Identity
     Name="MSEDGE.TomatoFocus"
     Publisher="CN=MSEDGE"
-    Version="1.0.0.0" />
+    Version="1.0.5.0" />
 
   <mp:PhoneIdentity PhoneProductId="3fa6f3a8-f9e7-4d02-98e0-68b7e8371ffc" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

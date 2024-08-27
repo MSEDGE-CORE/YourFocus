@@ -12,8 +12,21 @@
     Loaded="Page_Loaded">
 
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" MinWidth="360">
+        <Grid Name="BackgroundBoard" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+            <Grid.Resources>
+                <Storyboard x:Name="OStoryBoard">
+                    <DoubleAnimation x:Name="OStoryBoardDoubleAnimation" From="0" To="1" Storyboard.TargetName="BackgroundView" Storyboard.TargetProperty="Opacity" Duration="0:0:0.5" />
+                </Storyboard>
+            </Grid.Resources>
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="BackgroundView" Stretch="UniformToFill" Loaded="BackgroundView_Loaded"/>
+            <Rectangle Name="BackgroundBlack" Fill="{ThemeResource AppBarBackgroundThemeBrush}" Opacity="0.5"/>
+            <Rectangle Name="BackgroundBlur" Fill="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}"/>
+        </Grid>
+
         <StackPanel Name="GridTime" VerticalAlignment="Center" HorizontalAlignment="Stretch" Orientation="Vertical">
-            <Grid Name="OTimerShow" VerticalAlignment="Center" HorizontalAlignment="Center" Height="56" Visibility="Collapsed"/>
+            <Grid Name="OTimerShow" VerticalAlignment="Center" HorizontalAlignment="Center" Height="56">
+                <TextBlock Name="NFStatus" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontFamily="HarmonyOS Sans SC" FontSize="20"/>
+            </Grid>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBlock FontFamily="HarmonyOS Sans SC" FontWeight="Bold" FontSize="1" x:Name = "TimeDisplay"  VerticalAlignment = "Center" HorizontalAlignment = "Center" Visibility="Collapsed"/>
                 <Grid Name="GridHour" VerticalAlignment = "Bottom">
@@ -30,7 +43,7 @@
                 <TextBlock Name="TextH3" FontFamily="HarmonyOS Sans SC" Text="秒" FontWeight="Thin" FontSize="50" VerticalAlignment="Bottom"/>
             </StackPanel>
 
-            <Grid Name="ProgressGrid" Height="56" Visibility="Collapsed">
+            <Grid Name="ProgressGrid" Height="56">
                 <muxc:ProgressBar Name="ProgressBar" Width="276" VerticalAlignment="Top" Margin="0,-5,0,0"/>
             </Grid>
         </StackPanel>

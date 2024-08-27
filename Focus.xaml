@@ -69,7 +69,7 @@
                         <Button HorizontalAlignment="Stretch" Height="230" Margin="0,0,0,0" IsEnabled="False"/>
                         <TextBlock FontSize = "24" Text = "每日目标" Margin = "0,16,0,0" VerticalAlignment = "Top" HorizontalAlignment = "Center" FontFamily="HarmonyOS Sans SC" FontWeight="Medium"/>
                         <TextBlock Name="TextAlreadyFocused" FontSize="18" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Width="150" TextAlignment="Right" Margin="-60,115,250,40"/>
-                        <TextBlock Name="TextPercentFocused" FontSize="38" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Width="150" TextAlignment="Left" Margin="240,110,-60,40"/>
+                        <TextBlock Name="TextPercentFocused" FontSize="38" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Top" Width="150" TextAlignment="Left" Margin="245,110,-60,40"/>
                         <muxc:ProgressRing Name="GoalProgressRing" Loaded="GoalProgressRing_Loaded" Width="120" Height="120" IsIndeterminate="False" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,80,0,0"/>
                     </Grid>
                 </StackPanel>

@@ -85,7 +85,6 @@ namespace TomatoFocus
 
         private void NavTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            CloseTaskWebView();
             if (ContentFrame.CurrentSourcePageType != typeof(Tasks))
             {
                 ContentFrame.Navigate(typeof(Tasks), null, new EntranceNavigationTransitionInfo());

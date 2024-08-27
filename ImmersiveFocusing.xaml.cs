@@ -21,6 +21,8 @@ using System.Collections;
 using Windows.Storage;
 using System.Security.Cryptography;
 using System.Text;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace TomatoFocus
 {
@@ -28,7 +30,7 @@ namespace TomatoFocus
     {
         DispatcherTimer Timer1;
         int TimeHour = 0, TimeMinute = 0, TimeSecond = 0;
-        int nowFoucsStatus = 1; //0down 1up
+        int nowFocusStatus = 1; //0down 1up
         int nowAlreadyFocused = 0;
 
         public ImmersiveFocusing()
@@ -64,13 +66,15 @@ namespace TomatoFocus
                     }
                 }
             }
-            if((Application.Current as App).LocalSettings.Values["nowFoucsStatus"] != null)
+            if((Application.Current as App).LocalSettings.Values["nowFocusStatus"] != null)
             {
-                nowFoucsStatus = (int)(Application.Current as App).LocalSettings.Values["nowFoucsStatus"];
+                nowFocusStatus = (int)(Application.Current as App).LocalSettings.Values["nowFocusStatus"];
             }
             FocusRepeatButton.IsChecked = (Application.Current as App).FocusRepeated;
             if ((Application.Current as App).DefFocusMode == 0)
                 FocusRepeatButton.IsEnabled = false;
+
+            GetBackground();
 
             Timer1 = new DispatcherTimer();
             Timer1.Interval = new TimeSpan(0, 0, 0, 0, 5);
@@ -80,7 +84,7 @@ namespace TomatoFocus
 
         private void SetHMS()
         {
-            if ((Application.Current as App).DefFocusMode == 0 || nowFoucsStatus == 1)//Down
+            if ((Application.Current as App).DefFocusMode == 0 || nowFocusStatus == 1)//Down
             {
                 if ((Application.Current as App).Timer_IsStart == 1)
                 {
@@ -88,13 +92,11 @@ namespace TomatoFocus
 
                     if (ActualHeight >= TimeDisplay.FontSize + 56 * 2 + 100 && TextH1.FontSize == 50)
                     {
-                        OTimerShow.Visibility = Visibility.Visible;
-                        ProgressGrid.Visibility = Visibility.Visible;
+                        ProgressBar.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        OTimerShow.Visibility = Visibility.Collapsed;
-                        ProgressGrid.Visibility = Visibility.Collapsed;
+                        ProgressBar.Visibility = Visibility.Collapsed;
                     }
                 }
                 else if ((Application.Current as App).Timer_IsStart == 2)
@@ -103,13 +105,11 @@ namespace TomatoFocus
 
                     if (ActualHeight >= TimeDisplay.FontSize + 56 * 2 + 100 && TextH1.FontSize == 50)
                     {
-                        OTimerShow.Visibility = Visibility.Visible;
-                        ProgressGrid.Visibility = Visibility.Visible;
+                        ProgressBar.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        OTimerShow.Visibility = Visibility.Collapsed;
-                        ProgressGrid.Visibility = Visibility.Collapsed;
+                        ProgressBar.Visibility = Visibility.Collapsed;
                     }
                 }
                 else if ((Application.Current as App).Timer_IsStart == 0)
@@ -129,7 +129,7 @@ namespace TomatoFocus
                     {
                         (Application.Current as App).Timer_IsStart = 0;
                         NowTicks = 0;
-                        if (nowFoucsStatus == 0)
+                        if (nowFocusStatus == 0)
                         {
                             CountFocusingMinutes();
                             new ToastContentBuilder()
@@ -138,7 +138,7 @@ namespace TomatoFocus
                                 .AddText(DateTime.Now.ToLongTimeString().ToString())
                                 .Show();
                         }
-                        else if (nowFoucsStatus == 1)
+                        else if (nowFocusStatus == 1)
                         {
                             new ToastContentBuilder()
                                 .AddArgument("Action", "Timer")
@@ -147,7 +147,7 @@ namespace TomatoFocus
                                 .Show();
                         }
 
-                        if (!(Application.Current as App).FocusRepeated && nowFoucsStatus == 1)
+                        if (!(Application.Current as App).FocusRepeated && nowFocusStatus == 1)
                         {
                             ExitFocus();
                             return;
@@ -249,6 +249,11 @@ namespace TomatoFocus
         private void Timer_Tick(object sender, object e)
         {
             SetHMS();
+
+            if(nowFocusStatus == 0)
+                NFStatus.Text = "专注中";
+            else if(nowFocusStatus == 1)
+                NFStatus.Text = "休息中";
         }
 
         public async void FileFocus(bool f = true)
@@ -264,7 +269,7 @@ namespace TomatoFocus
             (Application.Current as App).LocalSettings.Values["toFocusMinutes"] = toFocusMinutes;
             (Application.Current as App).LocalSettings.Values["allFocusSteps"] = allFocusSteps;
             (Application.Current as App).LocalSettings.Values["toFocusSteps"] = FocusQ.Count;
-            (Application.Current as App).LocalSettings.Values["nowFoucsStatus"] = nowFoucsStatus;
+            (Application.Current as App).LocalSettings.Values["nowFocusStatus"] = nowFocusStatus;
 
             if(f)
             {
@@ -323,7 +328,7 @@ namespace TomatoFocus
                 {
                     FocusQ.Add(n);
                 }
-                nowFoucsStatus = 0;
+                nowFocusStatus = 0;
                 allFocusSteps = FocusQ.Count;
                 toFocusMinutes = FocusQ[0];
                 FocusQ.RemoveAt(0);
@@ -336,7 +341,7 @@ namespace TomatoFocus
                     return 1;
                 }
                 else
-                nowFoucsStatus = allFocusSteps - FocusQ.Count;
+                nowFocusStatus = allFocusSteps - FocusQ.Count;
                 toFocusMinutes = FocusQ[0];
                 FocusQ.RemoveAt(0);
             }
@@ -344,6 +349,11 @@ namespace TomatoFocus
         }
         private void PresetFocus()
         {
+            if(nowFocusStatus == 0)
+                NFStatus.Text = "专注中";
+            else if (nowFocusStatus == 1)
+                NFStatus.Text = "休息中";
+
             if ((Application.Current as App).Timer_IsStart != 0 || (Application.Current as App).StopWatch_IsStart != 0)
             {
                 SetHMS();
@@ -360,9 +370,9 @@ namespace TomatoFocus
                 (Application.Current as App).Timer_StartTick = (long)DateTime.Now.Ticks / 10000 + toFocusMinutes * 60 * 1000 + 1000;
                 (Application.Current as App).Timer_TotalTick = toFocusMinutes * 60 * 1000;
             }
-            else if(nowFoucsStatus == 1)
+            else if(nowFocusStatus == 1)
             {
-                nowFoucsStatus = 0;
+                nowFocusStatus = 0;
                 if ((Application.Current as App).DefFocusMode == 0)//Down
                 {
                     if ((Application.Current as App).FocusRepeated)
@@ -386,9 +396,9 @@ namespace TomatoFocus
                     (Application.Current as App).StopWatch_StartTick = (long)DateTime.Now.Ticks / 10000;
                 }
             }
-            else if(nowFoucsStatus == 0)
+            else if(nowFocusStatus == 0)
             {
-                nowFoucsStatus = 1;
+                nowFocusStatus = 1;
 
                 TextHour.Text = ((Application.Current as App).OnceRestMinutes / 60).ToString();
                 TextMinute.Text = ((Application.Current as App).OnceRestMinutes % 60).ToString();
@@ -403,7 +413,7 @@ namespace TomatoFocus
 
         private void FocusStartButton_Click(object sender, RoutedEventArgs e)
         {
-            if ((Application.Current as App).DefFocusMode == 0 || nowFoucsStatus == 1)
+            if ((Application.Current as App).DefFocusMode == 0 || nowFocusStatus == 1)
             {
                 if ((Application.Current as App).Timer_IsStart == 1)
                 {
@@ -443,7 +453,7 @@ namespace TomatoFocus
             Dialog.Content = "清选择您的操作";
             Dialog.SecondaryButtonText = "离开专注";
             Dialog.CloseButtonText = "取消";
-            if ((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated && nowFoucsStatus == 0)
+            if ((Application.Current as App).DefFocusMode == 0 && !(Application.Current as App).FocusRepeated && nowFocusStatus == 0)
             {
                 Dialog.DefaultButton = ContentDialogButton.Close;
                 //
@@ -463,7 +473,7 @@ namespace TomatoFocus
                 {
                     if ((Application.Current as App).DefFocusMode == 0)
                     {
-                        if (nowFoucsStatus == 0)
+                        if (nowFocusStatus == 0)
                             CountFocusingMinutes();
                         (Application.Current as App).Timer_IsStart = 0;
                         PresetFocus();
@@ -476,13 +486,13 @@ namespace TomatoFocus
                                 .AddText(DateTime.Now.ToLongTimeString().ToString())
                                 .Show();
 
-                        if (nowFoucsStatus == 0)
+                        if (nowFocusStatus == 0)
                         {
                             CountFocusingMinutes();
                             (Application.Current as App).StopWatch_IsStart = 0;
                             PresetFocus();
                         }
-                        else if(nowFoucsStatus == 1)
+                        else if(nowFocusStatus == 1)
                         {
                             (Application.Current as App).Timer_IsStart = 0;
                             if (!(Application.Current as App).FocusRepeated)
@@ -536,7 +546,7 @@ namespace TomatoFocus
             toFocusMinutes = 0;
             allFocusSteps = 0;
             FocusQ.Clear();
-            nowFoucsStatus = 1;
+            nowFocusStatus = 1;
 
             if (ApplicationView.GetForCurrentView().IsFullScreen)
             {
@@ -651,6 +661,11 @@ namespace TomatoFocus
             GridTime.Margin = new Thickness(0, 32 + TimeDisplay.FontSize / 10.0, 0, 60);
         }
 
+        private void BackgroundView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Page_SizeChanged(object sender = null, SizeChangedEventArgs e = null)
         {
             SetFontSize();
@@ -659,6 +674,46 @@ namespace TomatoFocus
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void GetBackground()
+        {
+            if ((Application.Current as App).iUseCustomBackground)
+            {
+                BackgroundBoard.Visibility = Visibility.Visible;
+                BackgroundView.Visibility = Visibility.Visible;
+                Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                StorageFile file = await StorageFolder.GetFileAsync("ImmersiveFocusing\\Background.png");
+                if (file != null)
+                {
+                    using (IRandomAccessStream FileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                    {
+                        BitmapImage bitmapImage = new BitmapImage();
+                        await bitmapImage.SetSourceAsync(FileStream);
+                        BackgroundView.Source = bitmapImage;
+                    }
+                }
+            }
+            else
+            {
+                BackgroundBoard.Visibility = Visibility.Collapsed;
+                BackgroundView.Visibility = Visibility.Collapsed;
+            }
+
+            if ((Application.Current as App).iUseAcrylicBlur)
+            {
+                BackgroundBlack.Visibility = Visibility.Collapsed;
+                BackgroundBlur.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                BackgroundBlur.Visibility = Visibility.Collapsed;
+                BackgroundBlack.Visibility = Visibility.Visible;
+            }
+
+            OStoryBoardDoubleAnimation.From = 0.001;
+            OStoryBoardDoubleAnimation.To = 1;
+            OStoryBoard.Begin();
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Cryptography;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,18 +24,23 @@ namespace TomatoFocus
             this.InitializeComponent();
             todayAlreadyFocused.Text = ((int)(Application.Current as App).AlreadyFocusedMinutes).ToString() + " 分";
             allAlreadyFocused.Text = ((int)(Application.Current as App).allAlreadyFocusedMinutes).ToString() + " 分";
-            GetHistory();
-        }
-
-        public async void GetHistory()
-        {
-            Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            Windows.Storage.StorageFile file;
+            ListFocus.ItemsSource = (Application.Current as App).FocusedList;
+            RefreshTodayFocus();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            HistoryBoard.Height = ActualHeight - 180;
+            HistoryBoard.Height = ActualHeight - 150;
+        }
+
+        private async void RefreshTodayFocus()
+        {
+            string theDate = DateTime.Now.Year.ToString() + " 年 " + DateTime.Now.Month.ToString() + " 月 " + DateTime.Now.Day.ToString() + " 日";
+            if ((Application.Current as App).FocusedList[0].Date == theDate)
+            {
+                (Application.Current as App).FocusedList[0].Time = ((int)(Application.Current as App).AlreadyFocusedMinutes).ToString() + " 分";
+                (Application.Current as App).FocusedList[0].Percent = ((int)((Application.Current as App).AlreadyFocusedMinutes * 100 / (Application.Current as App).DailyGoalMinutes)).ToString() + "%";
+            }
         }
     }
 }

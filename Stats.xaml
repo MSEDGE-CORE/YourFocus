@@ -29,11 +29,21 @@
                         <TextBlock Name="allAlreadyFocused" FontSize = "20" Margin = "200,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                     </Grid>
-                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" Name="HistoryBoard">
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,-24" Name="HistoryBoard">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "20" Text = "历史记录" Margin = "22,16,0,16" VerticalAlignment = "Top" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" FontWeight="Medium"/>
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-
+                        <ListView x:Name="ListFocus" HorizontalAlignment="Stretch" Margin="0,60,0,0" VerticalAlignment="Stretch" SelectionMode="None">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:Focused_List">
+                                    <Grid HorizontalAlignment="Stretch" MaxWidth="500">
+                                        <TextBlock Text="{x:Bind Date}" FontSize="16" Margin="10,0,0,0" HorizontalAlignment="Left" FontFamily="HarmonyOS Sans SC"/>
+                                        <TextBlock Text="{x:Bind Time}" FontSize="16" Margin="0,0,120,0" HorizontalAlignment="Right" FontFamily="HarmonyOS Sans SC"/>
+                                        <TextBlock Text="{x:Bind Percent}" FontSize="16" Margin="0,0,18,0" HorizontalAlignment="Right" FontFamily="HarmonyOS Sans SC"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Grid>
                 </StackPanel>
             </Grid>

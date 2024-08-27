@@ -16,6 +16,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace TomatoFocus
 {
@@ -35,6 +40,8 @@ namespace TomatoFocus
             DailyGoal_Selection.SelectedIndex = selections[(Application.Current as App).DailyGoalMinutes];
             ShowTasksPage_Switch.IsOn = (Application.Current as App).ShowTasksPage;
             ShowRoomPage_Switch.IsOn = (Application.Current as App).ShowRoomPage;
+            BgBlur.IsChecked = (Application.Current as App).iUseAcrylicBlur;
+            BgReset.IsEnabled = ((Application.Current as App).iUseCustomBackground == true);
         }
 
         private void Theme_Selection_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -116,9 +123,121 @@ namespace TomatoFocus
             (Application.Current as App).LocalSettings.Values["ShowRoomPage"] = (Application.Current as App).ShowRoomPage;
         }
 
-        private void CustomizeFocusPage_Click(object sender, RoutedEventArgs e)
+        private async void CustomizeFocusPage_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SettingsCustomizeFocusPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            isProcessingBg = true;
+
+            FileOpenPicker fileOpenPicker = new FileOpenPicker();
+            fileOpenPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            fileOpenPicker.FileTypeFilter.Add(".png");
+            fileOpenPicker.FileTypeFilter.Add(".jpeg");
+            fileOpenPicker.FileTypeFilter.Add(".jpg");
+            fileOpenPicker.ViewMode = PickerViewMode.Thumbnail;
+            var inputFile = await fileOpenPicker.PickSingleFileAsync();
+            if (inputFile == null)
+                return;
+            SoftwareBitmap SoftwareBitmap;
+            using (IRandomAccessStream stream = await inputFile.OpenAsync(FileAccessMode.Read))
+            {
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                SoftwareBitmap = await decoder.GetSoftwareBitmapAsync();
+            }
+            Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var OutputFile = await StorageFolder.CreateFileAsync("ImmersiveFocusing\\Background.png", CreationCollisionOption.OpenIfExists);
+            SaveSoftwareBitmapToFile(SoftwareBitmap, OutputFile);
+
+            BgReset.IsEnabled = true;
+            (Application.Current as App).iUseCustomBackground = true;
+            (Application.Current as App).LocalSettings.Values["iUseCustomBackground"] = (Application.Current as App).iUseCustomBackground;
+
+            isProcessingBg = false;
+        }
+
+        private void BgReset_Click(object sender, RoutedEventArgs e)
+        {
+            BgReset.IsEnabled = false;
+            BgBlur.IsChecked = true;
+            BgImage.Source = null;
+
+            (Application.Current as App).iUseCustomBackground = false;
+            (Application.Current as App).iUseAcrylicBlur = true;
+            (Application.Current as App).LocalSettings.Values["iUseCustomBackground"] = (Application.Current as App).iUseCustomBackground;
+            (Application.Current as App).LocalSettings.Values["iUseAcrylicBlur"] = (Application.Current as App).iUseAcrylicBlur;
+        }
+
+        private void BgBlur_Click(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).iUseAcrylicBlur = (bool)BgBlur.IsChecked;
+            (Application.Current as App).LocalSettings.Values["iUseAcrylicBlur"] = (Application.Current as App).iUseAcrylicBlur;
+        }
+
+        bool isProcessingBg = false;
+        private async void BgShow_Click(object sender, RoutedEventArgs e)
+        {
+            if ((Application.Current as App).iUseCustomBackground)
+                BgText.Text = "";
+            else
+                BgText.Text = "默认";
+            GetBackground();
+        }
+
+        private async void SaveSoftwareBitmapToFile(SoftwareBitmap SoftwareBitmap, StorageFile OutputFile)
+        {
+            using (IRandomAccessStream stream = await OutputFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                encoder.SetSoftwareBitmap(SoftwareBitmap);
+                encoder.BitmapTransform.ScaledWidth = (uint)SoftwareBitmap.PixelWidth;
+                encoder.BitmapTransform.ScaledHeight = (uint)SoftwareBitmap.PixelHeight;
+                encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.Fant;
+                encoder.IsThumbnailGenerated = true;
+                try
+                {
+                    await encoder.FlushAsync();
+                }
+                catch (Exception err)
+                {
+                    const int WINCODEC_ERR_UNSUPPORTEDOPERATION = unchecked((int)0x88982F81);
+                    switch (err.HResult)
+                    {
+                        case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                            encoder.IsThumbnailGenerated = false;
+                            break;
+                        default:
+                            throw;
+                    }
+                }
+                if (encoder.IsThumbnailGenerated == false)
+                {
+                    await encoder.FlushAsync();
+                }
+            }
+        }
+
+        private async void GetBackground()
+        {
+            if ((Application.Current as App).iUseCustomBackground && !isProcessingBg)
+            {
+                try
+                {
+                    Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                    StorageFile file = await StorageFolder.GetFileAsync("ImmersiveFocusing\\Background.png");
+                    if (file != null)
+                    {
+                        using (IRandomAccessStream FileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                        {
+                            BitmapImage bitmapImage = new BitmapImage();
+                            await bitmapImage.SetSourceAsync(FileStream);
+                            BgImage.Source = bitmapImage;
+                        }
+                    }
+                }
+                catch { }
+            }
+            else
+            {
+                BgImage.Source = null;
+            }
         }
     }
 }

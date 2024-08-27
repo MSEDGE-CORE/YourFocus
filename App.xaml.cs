@@ -17,11 +17,21 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Collections.ObjectModel;
 
 namespace TomatoFocus
 {
+    public class Focused_List
+    {
+        public string Date { get; set; }
+        public string Time { get; set; }
+        public string Percent { get; set; }
+    }
+
     sealed partial class App : Application
     {
+        public ObservableCollection<Focused_List> FocusedList { get; } = new ObservableCollection<Focused_List>();
+
         public Frame RootFrame;
         public ApplicationDataContainer LocalSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
@@ -44,7 +54,10 @@ namespace TomatoFocus
         public long Timer_TotalTick = 0;
 
         public bool ShowTasksPage = true;
-        public bool ShowRoomPage = true;
+        public bool ShowRoomPage = false;
+
+        public bool iUseCustomBackground = false;
+        public bool iUseAcrylicBlur = true;
 
         public App()
         {
@@ -67,6 +80,7 @@ namespace TomatoFocus
                 Window.Current.Content = RootFrame;
             }
             GetSettings();
+            GetFocuseHistory();
             if (e.PrelaunchActivated == false)
             {
                 if (RootFrame.Content == null)
@@ -183,11 +197,28 @@ namespace TomatoFocus
                 }
                 if (LocalSettings.Values["ShowRoomPage"] == null)
                 {
-                    LocalSettings.Values["ShowRoomPage"] = true;
+                    LocalSettings.Values["ShowRoomPage"] = false;
                 }
                 else
                 {
                     ShowRoomPage = (bool)LocalSettings.Values["ShowRoomPage"];
+                }
+
+                if (LocalSettings.Values["iUseCustomBackground"] == null)
+                {
+                    LocalSettings.Values["iUseCustomBackground"] = false;
+                }
+                else
+                {
+                    iUseCustomBackground = (bool)LocalSettings.Values["iUseCustomBackground"];
+                }
+                if (LocalSettings.Values["iUseAcrylicBlur"] == null)
+                {
+                    LocalSettings.Values["iUseAcrylicBlur"] = true;
+                }
+                else
+                {
+                    iUseAcrylicBlur = (bool)LocalSettings.Values["iUseAcrylicBlur"];
                 }
 
                 if (LocalSettings.Values["Timer_IsStart"] != null)
@@ -231,5 +262,36 @@ namespace TomatoFocus
             }
             catch { }
         }
-     }
+
+        public async void GetFocuseHistory()
+        {
+            Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            Windows.Storage.StorageFile file;
+            List<string> Dates = new List<string>();
+            try
+            {
+                file = await StorageFolder.GetFileAsync("FocusHistory\\CountFocused.txt");
+                int c = 0;
+                var FileList = await Windows.Storage.FileIO.ReadLinesAsync(file);
+                c = int.Parse(FileList[0]);
+                for (int i = 1; i <= c; i++)
+                    Dates.Add(FileList[i].ToString());
+            }
+            catch { }
+            foreach (string i in Dates)
+            {
+                string Time = "";
+                string Percent = "";
+                try
+                {
+                    file = await StorageFolder.GetFileAsync("FocusHistory\\" + i + ".txt");
+                    var file2 = await Windows.Storage.FileIO.ReadLinesAsync(file);
+                    Time = ((int)double.Parse(file2[0])).ToString() + " 分";
+                    Percent = ((int)(double.Parse(file2[1]))).ToString() + "%";
+                }
+                catch { }
+                FocusedList.Add(new Focused_List { Date = (i.Split(','))[0] + " 年 " + (i.Split(','))[1] + " 月 " + (i.Split(','))[2] + " 日", Time = Time, Percent = Percent });
+            }
+        }
+    }
 }
