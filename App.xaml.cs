@@ -278,6 +278,7 @@ namespace TomatoFocus
                     Dates.Add(FileList[i].ToString());
             }
             catch { }
+            FocusedList.Clear();
             foreach (string i in Dates)
             {
                 string Time = "";
