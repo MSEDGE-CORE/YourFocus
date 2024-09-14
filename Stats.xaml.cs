@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace TomatoFocus
+namespace YourFocus
 {
     public sealed partial class Stats : Page
     {
@@ -36,7 +36,7 @@ namespace TomatoFocus
         private async void RefreshTodayFocus()
         {
             string theDate = DateTime.Now.Year.ToString() + " 年 " + DateTime.Now.Month.ToString() + " 月 " + DateTime.Now.Day.ToString() + " 日";
-            if ((Application.Current as App).FocusedList[0].Date == theDate)
+            if ((Application.Current as App).FocusedList.Count != 0 && (Application.Current as App).FocusedList[0].Date == theDate)
             {
                 (Application.Current as App).FocusedList[0].Time = ((int)(Application.Current as App).AlreadyFocusedMinutes).ToString() + " 分";
                 (Application.Current as App).FocusedList[0].Percent = ((int)((Application.Current as App).AlreadyFocusedMinutes * 100 / (Application.Current as App).DailyGoalMinutes)).ToString() + "%";

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace TomatoFocus
+namespace YourFocus
 {
     public sealed partial class Focus : Page
     {

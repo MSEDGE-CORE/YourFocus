@@ -24,7 +24,7 @@ using System.Text;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace TomatoFocus
+namespace YourFocus
 {
     public sealed partial class ImmersiveFocusing : Page
     {

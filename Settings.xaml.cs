@@ -22,7 +22,7 @@ using Windows.Storage.Streams;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace TomatoFocus
+namespace YourFocus
 {
     public sealed partial class Settings : Page
     {

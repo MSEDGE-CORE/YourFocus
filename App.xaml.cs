@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 
-namespace TomatoFocus
+namespace YourFocus
 {
     public class Focused_List
     {
@@ -51,7 +51,7 @@ namespace TomatoFocus
         public int Timer_IsStart = 0;
         public long Timer_StartTick = 0;
         public long Timer_PauseTick = 0;
-        public long Timer_TotalTick = 0;
+        public long Timer_TotalTick = 0; 
 
         public bool ShowTasksPage = true;
         public bool ShowRoomPage = false;

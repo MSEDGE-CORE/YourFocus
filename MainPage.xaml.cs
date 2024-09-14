@@ -19,7 +19,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace TomatoFocus
+namespace YourFocus
 {
     public sealed partial class MainPage : Page
     {
