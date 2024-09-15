@@ -67,23 +67,9 @@
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TextBlock FontSize = "16" Text = "更改背景" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
-                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                        <Button Name="CustomizeFocusPage" Click="CustomizeFocusPage_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,26,0">
-                            <Button Name="BgReset" Click="BgReset_Click" Content="恢复默认" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,4,0"/>
-                            <Button Name="BgShow" Click="BgShow_Click" Content="查看" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,4,0">
-                                <Button.Flyout>
-                                    <Flyout>
-                                        <Grid CornerRadius="4" MaxWidth="320" MaxHeight="270">
-                                            <TextBlock Name="BgText" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            <Image Name="BgImage" MaxWidth="320" MaxHeight="270" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </Grid>
-                                    </Flyout>
-                                </Button.Flyout>
-                            </Button>
-                            <ToggleButton Name="BgBlur" Click="BgBlur_Click" Content="模糊" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0"/>
-                        </StackPanel>
+                        <TextBlock FontSize = "16" Text = "个性化专注页" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE0E3;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,26,0" FontSize="12"/>
+                        <Button Name="SettingsFocusPage" Click="SettingsFocusPage_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"/>
                     </Grid>
 
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "待办" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />
@@ -91,14 +77,14 @@
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "显示待办 （Microsoft ToDo Web）" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                        <ToggleSwitch Name="ShowTasksPage_Switch" Toggled="ShowTasksPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-52,0"/>
+                        <ToggleSwitch Name="ShowTasksPage_Switch" Toggled="ShowTasksPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
                     </Grid>
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "自习室" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" Visibility="Collapsed" />
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Collapsed">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "显示自习室" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                        <ToggleSwitch Name="ShowRoomPage_Switch" Toggled="ShowRoomPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-52,0"/>
+                        <ToggleSwitch Name="ShowRoomPage_Switch" Toggled="ShowRoomPage_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
                     </Grid>
 
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "关于" Margin = "0,12,0,0" FontFamily="HarmonyOS Sans SC" />

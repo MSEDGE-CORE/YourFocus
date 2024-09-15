@@ -115,9 +115,6 @@ namespace YourFocus
                 else if ((Application.Current as App).Timer_IsStart == 0)
                 {
                     FocusStartButtonIcon.Glyph = "\uF5B0";
-
-                    OTimerShow.Visibility = Visibility.Collapsed;
-                    ProgressGrid.Visibility = Visibility.Collapsed;
                 }
 
                 //TimeDisplay
@@ -204,8 +201,7 @@ namespace YourFocus
                 {
                     FocusStartButtonIcon.Glyph = "\uF5B0";
                 }
-                OTimerShow.Visibility = Visibility.Collapsed;
-                ProgressGrid.Visibility = Visibility.Collapsed;
+                ProgressBar.Visibility = Visibility.Collapsed;
 
                 //TimeDisplay
                 if ((Application.Current as App).StopWatch_IsStart == 1)
@@ -307,6 +303,7 @@ namespace YourFocus
                         sDates.Append(date + "\n");
                     await Windows.Storage.FileIO.WriteTextAsync(FileCount, sDates.ToString());
                 }
+                file = null;
             }
         }
 
@@ -592,32 +589,8 @@ namespace YourFocus
             {
                 Page_SizeChanged();
                 PresetFocus();
-                AGridTime.Configuration = new DirectConnectedAnimationConfiguration();
+                AGridTime.Configuration = new BasicConnectedAnimationConfiguration();
                 AGridTime.TryStart(GridTime);
-            }
-        }
-
-        private void FSButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ApplicationView.GetForCurrentView().IsFullScreen)
-            {
-                ApplicationView.GetForCurrentView().ExitFullScreenMode();
-            }
-            else
-            {
-                ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-            }
-        }
-
-        private void CompactButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ApplicationView.GetForCurrentView().ViewMode == ApplicationViewMode.CompactOverlay)
-            {
-                ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
-            }
-            else
-            {
-                ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
             }
         }
 
@@ -678,28 +651,6 @@ namespace YourFocus
 
         private async void GetBackground()
         {
-            if ((Application.Current as App).iUseCustomBackground)
-            {
-                BackgroundBoard.Visibility = Visibility.Visible;
-                BackgroundView.Visibility = Visibility.Visible;
-                Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                StorageFile file = await StorageFolder.GetFileAsync("ImmersiveFocusing\\Background.png");
-                if (file != null)
-                {
-                    using (IRandomAccessStream FileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read))
-                    {
-                        BitmapImage bitmapImage = new BitmapImage();
-                        await bitmapImage.SetSourceAsync(FileStream);
-                        BackgroundView.Source = bitmapImage;
-                    }
-                }
-            }
-            else
-            {
-                BackgroundBoard.Visibility = Visibility.Collapsed;
-                BackgroundView.Visibility = Visibility.Collapsed;
-            }
-
             if ((Application.Current as App).iUseAcrylicBlur)
             {
                 BackgroundBlack.Visibility = Visibility.Collapsed;
@@ -711,9 +662,62 @@ namespace YourFocus
                 BackgroundBlack.Visibility = Visibility.Visible;
             }
 
-            OStoryBoardDoubleAnimation.From = 0.001;
+            if ((Application.Current as App).iUseCustomBackground)
+            {
+                BackgroundBoard.Visibility = Visibility.Visible;
+                BackgroundView.Visibility = Visibility.Visible;
+
+                try
+                {
+                    Windows.Storage.StorageFolder StorageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                    StorageFile file = await StorageFolder.GetFileAsync("ImmersiveFocusing\\Background.png");
+                    if (file != null)
+                    {
+                        using (IRandomAccessStream FileStream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                        {
+                            BitmapImage bitmapImage = new BitmapImage();
+                            await bitmapImage.SetSourceAsync(FileStream);
+                            BackgroundView.Source = bitmapImage;
+                            bitmapImage = null;
+                        }
+                    }
+                    file = null;
+                }
+                catch { }
+            }
+            else
+            {
+                BackgroundBoard.Visibility = Visibility.Collapsed;
+                BackgroundView.Visibility = Visibility.Collapsed;
+            }
+
+            OStoryBoardDoubleAnimation.From = 0;
             OStoryBoardDoubleAnimation.To = 1;
             OStoryBoard.Begin();
+        }
+
+        private void MenuFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (ApplicationView.GetForCurrentView().IsFullScreenMode)
+            {
+                ApplicationView.GetForCurrentView().ExitFullScreenMode();
+            }
+            else
+            {
+                ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+            }
+        }
+
+        private void MenuCompact_Click(object sender, RoutedEventArgs e)
+        {
+            if (ApplicationView.GetForCurrentView().ViewMode == ApplicationViewMode.CompactOverlay)
+            {
+                ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
+            }
+            else
+            {
+                ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            }
         }
     }
 }

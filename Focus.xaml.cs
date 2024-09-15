@@ -141,7 +141,7 @@ namespace YourFocus
             ConnectedAnimation AFocusSetControls = ConnectedAnimationService.GetForCurrentView().GetAnimation("FocusControls");
             if (AFocusSetControls != null)
             {
-                AFocusSetControls.Configuration = new DirectConnectedAnimationConfiguration();
+                AFocusSetControls.Configuration = new BasicConnectedAnimationConfiguration();
                 AFocusSetControls.TryStart(FocusSetControls);
             }
             ConnectedAnimation AGridTime = ConnectedAnimationService.GetForCurrentView().GetAnimation("GridTime");

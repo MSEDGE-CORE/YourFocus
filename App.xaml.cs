@@ -259,6 +259,7 @@ namespace YourFocus
                     AlreadyFocusedMinutes = double.Parse((await Windows.Storage.FileIO.ReadLinesAsync(file))[0]);
                 }
                 catch { }
+                file = null;
             }
             catch { }
         }

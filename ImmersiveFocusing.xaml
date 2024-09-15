@@ -61,11 +61,22 @@
         </StackPanel>
 
         <Grid x:Name="AppTitleBar" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="32"/>
-        <Button Name="FSButton" Click="FSButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="32" Background="Transparent" BorderBrush="Transparent" CornerRadius="8" ToolTipService.ToolTip="全屏">
-            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE740;" FontSize="16"/>
-        </Button>
-        <Button Name="CompactButton" Click="CompactButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0" Width="40" Height="32" Background="Transparent" BorderBrush="Transparent" CornerRadius="8" ToolTipService.ToolTip="置顶">
-            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE898;" FontSize="16"/>
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="32" Background="Transparent" BorderBrush="Transparent" CornerRadius="8">
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE700;" FontSize="16"/>
+            <Button.Flyout>
+                <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                    <MenuFlyoutItem Text="全屏" Click="MenuFullScreen_Click">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE740;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="置顶" Click="MenuCompact_Click">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE898;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </Button.Flyout>
         </Button>
     </Grid>
 </Page>
