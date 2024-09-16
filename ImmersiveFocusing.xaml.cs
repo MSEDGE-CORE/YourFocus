@@ -596,6 +596,33 @@ namespace YourFocus
 
         public void SetFontSize()
         {
+            if (ActualHeight <= 240 || ActualWidth <= 400)
+            {
+                FocusControls.Visibility = Visibility.Collapsed;
+                NFStatus.FontSize = 10;
+
+                if (ActualWidth > 0 && ActualHeight > 0)
+                    TimeDisplay.FontSize = (ActualWidth / 7 > ActualHeight / 3) ? ActualHeight / 3: ActualWidth / 7;
+                TextHour.FontSize = TimeDisplay.FontSize;
+                TextMinute.FontSize = TimeDisplay.FontSize;
+                TextSecond.FontSize = TimeDisplay.FontSize;
+                GridHour.Height = TimeDisplay.FontSize * 1.2;
+                GridMinute.Height = TimeDisplay.FontSize * 1.2;
+                GridSecond.Height = TimeDisplay.FontSize * 1.2;
+
+                TextH1.FontSize = TextH2.FontSize = TextH3.FontSize = 10;
+                TextH1.Margin = new Thickness(4, 0, 6, TimeDisplay.FontSize / 2.0 - 08);
+                TextH2.Margin = new Thickness(4, 0, 6, TimeDisplay.FontSize / 2.0 - 08);
+                TextH3.Margin = new Thickness(4, 0, 0, TimeDisplay.FontSize / 2.0 - 08);
+                GridTime.Margin = new Thickness(0, 16 + TimeDisplay.FontSize / 10.0, 0, 0);
+                return;
+            }
+            else
+            {
+                FocusControls.Visibility = Visibility.Visible;
+                NFStatus.FontSize = 20;
+            }
+
             if (ActualWidth > 0 && ActualHeight - 60 - 32 > 0)
             {
                 if ((ActualHeight - 60 - 32) / 1.5 > (ActualWidth) / 6)

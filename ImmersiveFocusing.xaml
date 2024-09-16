@@ -11,7 +11,7 @@
     SizeChanged="Page_SizeChanged"
     Loaded="Page_Loaded">
 
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" MinWidth="360">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
         <Grid Name="BackgroundBoard" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
             <Grid.Resources>
                 <Storyboard x:Name="OStoryBoard">
