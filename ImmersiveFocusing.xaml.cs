@@ -269,6 +269,15 @@ namespace YourFocus
 
             if(f)
             {
+                if((Application.Current as App).TodayDate == "")
+                {
+                    (Application.Current as App).TodayDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
+                }
+                if((Application.Current as App).TodayDate != DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString())
+                {
+                    (Application.Current as App).AlreadyFocusedMinutes = 0;
+                    (Application.Current as App).TodayDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
+                }
                 double TodayMinutes = (Application.Current as App).AlreadyFocusedMinutes;
                 double TodayPercent = (Application.Current as App).AlreadyFocusedMinutes * 100.0 / (Application.Current as App).DailyGoalMinutes;
                 string theDate = DateTime.Now.Year.ToString() + "," + DateTime.Now.Month.ToString() + "," + DateTime.Now.Day.ToString();
