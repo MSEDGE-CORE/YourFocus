@@ -35,6 +35,7 @@ namespace YourFocus
         public Frame RootFrame;
         public ApplicationDataContainer LocalSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
+        public string TodayDate = "";
         public int DefFocusMode = 0;
         public int FocusMinutes = 60;
         public double AlreadyFocusedMinutes = 0;
