@@ -264,6 +264,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".github\ISSUE_TEMPLATE\功能建议.md" />
+    <None Include=".github\ISSUE_TEMPLATE\报告问题.md" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
     <None Include="YourFocus_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
